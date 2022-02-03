@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <script>
-        var store_name = "Blake";
+        store_name = "Blake";
+        var hits = 1;
+        var spins = 2;
+
     </script>
     <link rel="stylesheet" href="products-style.css">
     <meta charset="UTF-8">
@@ -10,11 +13,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smartphone Products</title>
 </head>
-<body>
+<body onload="
+        spins_span.innerHTML = spins;">
+    <header>
     <h1> <script>document.write(store_name);</script>'s Used Smartphone Store</h1>
+    <p style="text-align: center; font-weight: bold;">
+        Hits:<span id="hits_span">0</span>
+        Spins:<span id="spins_span">0</span>
+        </p>        
+    </header>
     <div>
     <main>
-    <section class="item" onmouseover="this. className='item rotate'" onclick="this.className='item'">
+    <section class="item" Onclick="hits_span.innerHTML = hits; OnMouseOver="spins_span.innerHTML = spins;"">
         <h2>HTC</h2>
         <p>&dollar;40.00</p>
         <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg">
@@ -43,6 +53,6 @@
     </div>
 </body>
 <footer>
-    <h1>Your One Stop Phone Shop</h1>
+    <h1>Your One Stop Phone Shop - <script>document.write(store_name);</script></h1>
 </footer>
 </html>
