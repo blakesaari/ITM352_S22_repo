@@ -21,7 +21,7 @@
     "spins_span.innerHTML = spins;">
 
 <header>
-    <h1> <script>document.write('<font size="200%"><b>' + first_name + '</b> <em>' + last_name '</em> </font>')</script>'s Used Smartphone Store</h1>
+    <h1 style="font-size:100px"> <script>document.write('<b>' + first_name + '</b> <i>' + last_name)</script></i>'s Used Smartphone Store</h1>
     <p style="text-align: center; font-weight: bold;">
         Hits:<span id="hits_span">0</span>
         Spins:<span id="spins_span">0</span>
@@ -42,8 +42,8 @@
     </section>
 
     <section class="item" 
-        OnClick="hits_span.innerHTML = ++hits;" 
-        onMouseOver="spins_span.innerHTML = ++spins;">
+    OnClick="hits_span.innerHTML = ++hits; hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);" 
+    onMouseOver="spins_span.innerHTML = ++spins; hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);">
 
         <h2>Apple</h2>
         <p>&dollar;75.00</p>
@@ -51,8 +51,8 @@
     </section>
 
     <section class="item" 
-        OnClick="hits_span.innerHTML = ++hits;" 
-        onMouseOver="spins_span.innerHTML = ++spins;">
+    OnClick="hits_span.innerHTML = ++hits; hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);" 
+    onMouseOver="spins_span.innerHTML = ++spins; hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);">
 
         <h2>Nokia</h2>
         <p>&dollar;35.00</p>
@@ -60,8 +60,8 @@
     </section>
 
     <section class="item" 
-        OnClick="hits_span.innerHTML = ++hits;" 
-        onMouseOver="spins_span.innerHTML = ++spins;">
+    OnClick="hits_span.innerHTML = ++hits; hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);" 
+    onMouseOver="spins_span.innerHTML = ++spins; hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);">
 
         <h2>Samsung</h2>
         <p>&dollar;45.00</p>
@@ -69,8 +69,8 @@
     </section>
 
     <section class="item" 
-        OnClick="hits_span.innerHTML = ++hits;" 
-        onMouseOver="spins_span.innerHTML = ++spins;">
+    OnClick="hits_span.innerHTML = ++hits; hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);" 
+    onMouseOver="spins_span.innerHTML = ++spins; hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);">
 
         <h2>Blackberry</h2>
         <p>&dollar;10.00</p>
@@ -82,12 +82,18 @@
 </body>
 <footer>
     <script>
+        now = new Date();
+        year = now.getFullYear();
+        hours = now.getHours();
+        minutes = now.getMinutes();
+        hours = ((hours + 11) % 12 + 1);
+        time = (hours < 12)?'AM':'PM';
         document.write(`
     <table border="1" style="margin-left: auto; margin-right: auto; text-align: center;">
         <tbody><tr><th colspan="2"><h1>Your One Stop For Used Phones - ${first_name[0]}.${last_name[0]}.'s</h1></th></tr>
         <tr><td>1.</td><td><br>Copyright @ ${first_name} ${last_name} </td></tr>
-        <tr><td>2.</td><td>2021</td></tr>
-        <tr><td>3.</td><td>11:15 AM</td></tr>
+        <tr><td>2.</td><td>${year}</td></tr>
+        <tr><td>3.</td><td>${hours}:${minutes} ${time}</td></tr>
     </tbody></table>
     `);
     </script>
