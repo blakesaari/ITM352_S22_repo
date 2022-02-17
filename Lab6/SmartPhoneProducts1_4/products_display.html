@@ -12,6 +12,7 @@
         var over_half = false;
         
     </script>
+
     <link rel="stylesheet" href="products-style.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -63,16 +64,26 @@
 
     <section class="item" 
         OnClick="
-        hits_span.innerHTML = ++hits; 
-        hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);
-        win_span.innerHTML = (spins < 2*hits) && (hits<spins);
-        "
-
-        onMouseOver=
-        "spins_span.innerHTML = ++spins; 
-        hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);
-        win_span.innerHTML = (spins < 2*hits) && (hits<spins);
-        ">
+        if(this.className == 'item rotate')
+            {
+            this.className='item';
+            hits_span.innerHTML = ++hits; 
+            hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);
+            }
+            else{this.className='item rotate';
+        }
+            over_half = over_half || ((spins < 2*hits) && (hits<spins));
+            win_span.innerHTML = over_half;
+            "
+        onMouseOver="
+        if(this.className == 'item')
+            {
+            this.className='item rotate';
+            spins_span.innerHTML = ++spins; 
+            hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);
+            win_span.innerHTML = (spins < 2*hits) && (hits<spins);
+            }
+            ">
 
         <h2>Apple</h2>
         <p>&dollar;75.00</p>
@@ -81,15 +92,37 @@
 
     <section class="item" 
         OnClick="
+        if(this.className == 'item rotate')
+        {
+        this.className='item';
         hits_span.innerHTML = ++hits; 
         hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);
-        win_span.innerHTML = (spins < 2*hits) && (hits<spins);
+        }
+        else{this.className='item rotate';
+    }
+        over_half = over_half || ((spins < 2*hits) && (hits<spins));
+        win_span.innerHTML = over_half;
         "
-
-        onMouseOver=
-        "spins_span.innerHTML = ++spins; 
+    onMouseOver="
+    if(this.className == 'item')
+        {
+        this.className='item rotate';
+        spins_span.innerHTML = ++spins; 
+        
+        hits_spins_ratio = hits/spins;
+        if ( hits_spins_ratio > 0 && hits_spins_ratio < 0.25)
+            {progress = 'On your war!';}
+        elseif ( hits_spins_ratio >= 0.25 && hits_spins_ratio < 0.5)
+            {progress = 'Almost there!';}
+        elseif ( hits_spins_ratio >= 0.5)
+            {progress = 'You win!';}
+        }
+        else {
+            progress = 'Get going!';}            
+        
         hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);
         win_span.innerHTML = (spins < 2*hits) && (hits<spins);
+        }
         ">
 
         <h2>Nokia</h2>
@@ -99,15 +132,25 @@
 
     <section class="item" 
         OnClick="
+        if(this.className == 'item rotate')
+        {
+        this.className='item';
         hits_span.innerHTML = ++hits; 
         hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);
-        win_span.innerHTML = (spins < 2*hits) && (hits<spins);
+        }
+        else{this.className='item rotate';
+        }
+        over_half = over_half || ((spins < 2*hits) && (hits<spins));
+        win_span.innerHTML = over_half;
         "
-
-        onMouseOver=
-        "spins_span.innerHTML = ++spins; 
+        onMouseOver="
+        if(this.className == 'item')
+        {
+        this.className='item rotate';
+        spins_span.innerHTML = ++spins; 
         hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);
         win_span.innerHTML = (spins < 2*hits) && (hits<spins);
+        }
         ">
 
         <h2>Samsung</h2>
@@ -117,15 +160,25 @@
 
     <section class="item" 
         OnClick="
+        if(this.className == 'item rotate')
+        {
+        this.className='item';
         hits_span.innerHTML = ++hits; 
         hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);
-        win_span.innerHTML = (spins < 2*hits) && (hits<spins);
+        }
+        else{this.className='item rotate';
+        }
+        over_half = over_half || ((spins < 2*hits) && (hits<spins));
+        win_span.innerHTML = over_half;
         "
-
-        onMouseOver=
-        "spins_span.innerHTML = ++spins; 
+        onMouseOver="
+        if(this.className == 'item')
+        {
+        this.className='item rotate';
+        spins_span.innerHTML = ++spins; 
         hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML);
-        win_span.innerHTML = (spins < 2*hits) && (hits < spins);
+        win_span.innerHTML = (spins < 2*hits) && (hits<spins);
+        }
         ">
 
         <h2>Blackberry</h2>
