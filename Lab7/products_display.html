@@ -1,11 +1,17 @@
 <script src="./products_data.js"></script>
 
+<head>
 <table border="1">
+    <tr><th>Number</th><th>Item</th><th>Price</th></tr>
 <script>
     var i = 1
-    while (eval("typeof name"+product_index) !='undefined')
+
+    for (i = 1; eval("typeof name"+i) !='undefined'; i++)
+    {
     document.write(`
-    <tr><td>${i}</td><td>${eval('name' + i)}</td></tr>
-`)
+    <tr><td>${i}</td><td>${eval('name' + i)}</td><td>${eval('price' + i)}</td></tr>
+    `);
+}
 </script>
 </table>
+</head>

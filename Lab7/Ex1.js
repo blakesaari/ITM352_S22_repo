@@ -7,7 +7,8 @@ while(count <= (num_products))
 {
     console.log( `${count}. ${eval('name' + count)}`);
     count++;
-    if(count > num_products/2)
+    if(count >= num_products*.25 && count <= num_products*.75)
+    console.log('name' `is sold out!`)
     {
         break;
     }
