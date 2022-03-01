@@ -26,9 +26,9 @@
     <tr style="border: 1px solid black;"><th style="border: 1px solid black;">Product #</th><th>Quantity</th><th>Name</th><th>Price</th><th>Extended Price</th></tr>
 
     <script>
-        for(let i in product_quantities)
+        for (let i in product_quantities)
         {
-        document.write(`<tr style="border: 1px solid black;"><td style="border: 1px solid black;">${Number(i)+1}</td><td>${product_quantities[i]}</td><td>${products[i]['name']}</td><td>$${products[i]['price']}</td><td>$${products[i].price * product_quantities[i]}</td></tr>`);
+        document.write(`<tr style="border: 1px solid black;"><td style="border: 1px solid black;">${Number(i)+1}</td><td>${product_quantities[i]}</td><td>${products[i]['name']}</td><td>$${products[i]['price']}</td><td>$${products[i].price * product_quantities[i].toFixed(2)}</td></tr>`);
         }
     </script>
 
