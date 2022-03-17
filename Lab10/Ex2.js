@@ -2,5 +2,5 @@ while(true) {
     if(controller.move() == false) {
     controller.rotate();
     }
-await sleep(2000);
+await sleep(3000);
 }
