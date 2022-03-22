@@ -1,0 +1,15 @@
+<script>
+    let params = (new URL(document.location)).searchParams;
+
+    document.write(params.get("quantity_textbox"))
+
+    function isNonNegInt(q, returnErrors = false) {
+        errors = []; // Assumes no errors
+        if(Number(q) != q) errors.push('Not a number!'); // Check if string is a number
+        else {
+        if(q < 0) errors.push('Negative value!'); // Check if it is non-negative
+        if(parseInt(q) != q) errors.push('Not an interger!'); // Check that it is an interger
+            }
+        return (returnErrors ? erorrs : (errors.legnth == 0));
+    }
+</script>
