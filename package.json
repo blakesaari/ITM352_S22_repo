@@ -3,6 +3,7 @@
     "express": "^4.17.3",
     "exprses": "^0.0.1-security",
     "minimist": "^1.2.5",
-    "nodemod": "^3.0.6"
+    "nodemod": "^3.0.6",
+    "nodemon": "^2.0.15"
   }
 }
