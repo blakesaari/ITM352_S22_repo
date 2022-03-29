@@ -1,5 +1,6 @@
 footer {
     align-content: space-evenly;
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
 }
 
 
@@ -7,11 +8,13 @@ footer {
 .navbar {
     margin-bottom: 50px;
     border-radius: 0;
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
     }
 
 /* Remove the jumbotron's default bottom margin */ 
     .jumbotron {
     margin-bottom: 0;
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
     }
                 
 /* Add a gray background color and some padding to the footer */
@@ -22,8 +25,10 @@ footer {
 
 div {
     padding: 10px;
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
 }
 
 .container-fluid {
     height: 30px;
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
 }

@@ -1,8 +1,9 @@
 var company = "The Meatlocker";
-var address = "4718 Kaimuki Ave.";
+var street = "4718 Kaimuki Avenue";
 var city = "Honolulu";
-var state = "HI";
+var state = "Hawaii";
 var zipcode = 96816;
+var phone_number = "808-458-7023"
 
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, '0');

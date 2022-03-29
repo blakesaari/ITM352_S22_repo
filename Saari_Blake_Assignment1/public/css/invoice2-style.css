@@ -83,9 +83,24 @@ body a {
     border-bottom: none;
 }
 
+.invoice-box table tr.subtotal td:nth-child(2) {
+    border-top: 2px solid #eee;
+    font-weight: bold;
+    text-align: right;
+
+}
+
+.invoice-box table tr.tax td:nth-child(2) {
+    border-top: 2px solid #eee;
+    font-weight: bold;
+    text-align: right;
+
+}
+
 .invoice-box table tr.total td:nth-child(2) {
     border-top: 2px solid #eee;
     font-weight: bold;
+    text-align: right;
 }
 
 @media only screen and (max-width: 600px) {

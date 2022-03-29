@@ -27,6 +27,7 @@
         font-size: 18px;
         margin-bottom: 10px;
         border-radius: 0;
+        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
     }
 
 /* Body */
@@ -34,6 +35,7 @@
     body {
         text-align: center;
         font-weight: 400;
+        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
     }
 
 /* Block Styling */
@@ -43,6 +45,7 @@
         box-shadow: black;
         display: flex;
         justify-content: center;
+        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
     }
 
 
@@ -50,6 +53,7 @@
     .navbar {
     margin-bottom: 50px;
     border-radius: 0;
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
     }
 
 /* Remove the jumbotron's default bottom margin */ 
@@ -61,8 +65,10 @@
     footer {
     background-color: #f2f2f2;
     padding: 1px;
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
     }
 
 div {
     padding: 10px;
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
 }
