@@ -1,6 +1,9 @@
 <!-- Load Product Data -->
 <script src="../products.json"></script>
 
+<!-- Load Company Data -->
+<script src="./data/invoice_data.js"></script>
+
 <!-- Page Formatting-->
     <link rel="stylesheet" href="./css/invoice2-style.css">
 
@@ -27,13 +30,12 @@
                     <table>
                         <tr>
                             <td class="title">
-                                <img src="./images/logo.png" alt="Company logo" style="width: 100%; max-width: 300px" />
+                                <img src="images/logo.png" alt="Company logo" style="width: 100%; max-width: 300px" />
                             </td>
 
                             <td>
-                                Invoice #: 123<br />
-                                Created: January 1, 2015<br />
-                                Due: February 1, 2015
+                                Created: <script>document.write(today)</script><br />
+                                Due: <script>document.write(due_date)</script>
                             </td>
                         </tr>
                     </table>
@@ -45,6 +47,13 @@
                     <table>
                         <tr>
                             <td>
+                                <script>
+                                    console.log(`
+                                    ${company} <br>
+                                    ${address} <br>
+                                    ${City}, ${state}, ${zipcode}
+                                    `)
+                                </script>
                                 Sparksuite, Inc.<br />
                                 12345 Sunny Road<br />
                                 Sunnyville, TX 12345
