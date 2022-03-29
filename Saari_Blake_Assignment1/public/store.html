@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Created by: Blake Saari -->
+<!-- Page Containing Product Information, Allows user to select quantity and print invoice -->
+<!-- Utilizing Web3/Bootstrap/OnlineStore Template -->
+
+<script src="../products.json"></script>
+
+<script>
+
+        // Determines valid quantity (If "q" is a negative interger)
+        function isNonNegInt(q, return_errors = false) {
+            errors = []; // assume no errors at first
+            if (q == '') q = 0; // handle blank inputs as if they are 0
+            if (Number(q) != q) errors.push('<b><font color="red">Not a number!</font></b>'); // Check if string is a number value
+            if (q < 0) errors.push('<b><font color="red">Negative value!</font></b>'); // Check if it is non-negative
+            if (parseInt(q) != q) errors.push('<b><font color="red">Not an integer!</font></b>'); // Check that it is an integer
+            return return_errors ? errors : (errors.length == 0);
+        };
+
+    // Determines input in textbox
+        function checkQuantityTextbox(qtyTextbox) {
+            errs = isNonNegInt(qtyTextbox.value, true);
+            if (errs.length == 0) errs = ['Want to purchase: '];
+            if (qtyTextbox.value.trim() == '') errs = ['Type desired quantity: '];
+            document.getElementById(qtyTextbox.name + '_label').innerHTML = errs.join('<font color="red">, </font>');
+        };
+   
+    // Derived from Example Assignment 1
+        let params = (new URL(document.location)).searchParams;
+        window.onload = function () {
+            if (params.has('errors')) {
+                var errors = JSON.parse(params.get('errors'));
+                let err_str = '';
+                for (err in errors) {
+                    err_str += errors[err] + '\n';
+                }
+            }
+        }
+    
+    // Put available quantity in textbox (retreived from products.json)
+        if (params.has('quantity')) {
+            var quantities = JSON.parse(params.get('quantity'));
+            for (i in quantities) {
+                qtyTextbox[`quantity${i}`].value = quantities[i];
+                checkQuantityTextbox(qtyTextbox[`quantity${i}`]);
+            }
+        }
+
+</script>
+
+
+<head>
+  <title>Meat Locker</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+    <!-- Load in Cascading Style Sheets -->
+    <link rel="stylesheet" href="/css/product-style.css">
+
+</head>
+<body>
+
+<!-- Page Header-->
+<div class="jumbotron">
+  <div class="container text-center">
+    <h1>THE MEAT LOCKER</h1>      
+    <p><strong>High Quality U.S.D.A. Prime Beef</strong></p>
+  </div>
+</div>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+
+<!-- Navigation Bar -->
+    </div>
+      <ul class="nav navbar-nav">
+        <li><a href="./index.html">Home</a></li>
+        <li class="active"><a href="#">Products</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<form name="qtyTextbox" action="./purchase" method="POST">
+    <input type="submit" class="button" value="Purchase" name="purchase_submit" onclick="">
+
+    <br></br>
+
+<!-- Product Containers -->
+
+<div class = "container">
+<div class= "row">
+    <script>
+        // Print items on page
+        for(i = 0; i < products.length; i++) {
+            document.write(`
+            <div class="col-sm-6">
+            <div class="panel panel-primary">
+            <div class="panel-heading">${products[i].item}</div>
+            <div class="panel-body"> <img src="${products[i].image}" class="img-responsive" style="width:100%" alt="Image"></div>
+            <div class="panel-footer">${products[i].description}</div>
+            <label id = "quantity${i}_label"> Enter Quantity Desired: </label>
+            
+            <input type = "text" placeholder = "Quantity Available: ${products[i].quantity_available}" name = "quantity[${i}]" onekeyup="checkQuantityTextbox(this);">
+            
+            </div>
+            </div>
+            `);
+        }
+    </script>
+
+    <br> <br>
+    <form name="qtyTextbox" action="./purchase" method="POST">
+      <input type="submit" class="button" value="Purchase" name="purchase_submit" onclick="">
+<footer class="container-fluid text-center">
+  </form>
+</footer>
+</body>
+</html>
