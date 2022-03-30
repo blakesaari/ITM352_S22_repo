@@ -115,11 +115,16 @@ hr {
     vertical-align: bottom!important;
 }
 
-.polcy {
-    align-items: center;
+.policy {
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+    align-items: flex-end;
+    text-align: center;
+    position:fixed;
+    bottom: 20px;
+    width: 500px;
+    right: 480px;
+    text-align: center;
 }
-
-
 
 
 
