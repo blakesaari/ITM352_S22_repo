@@ -66,7 +66,7 @@ function checkQuantityTextbox(qtyTextbox) {
         }
 
     if (!available_quantity) {
-        errors['No quantities inputted'] = `Please select some steaks!`;
+        errors['No quantities inputted'] = `Please enter a quantity for steaks!`;
     }
 
     let quantity_object = { "quantity" : JSON.stringify(quantities)};
