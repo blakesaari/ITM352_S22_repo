@@ -11,7 +11,6 @@
 <link rel="shortcut icon" href="./images/favicon.ico">
 
 <script>
-
         // Determines valid quantity (If "q" is a negative interger)
         function isNonNegInt(q, return_errors = false) {
             errors = []; // assume no errors at first
@@ -33,13 +32,16 @@
     // Derived from Example Assignment 1
         let params = (new URL(document.location)).searchParams;
         window.onload = function () {
-            if (params.has('errors')) {
-                var errors = JSON.parse(params.get('errors'));
-                let err_str = '';
-                for (err in errors) {
-                    err_str += errors[err] + '\n';
-                }
+            
+          
+        if (params.has('errors')) {
+            var errors = JSON.parse(params.get('errors'));
+            let err_str = '';
+            for (err in errors) {
+                err_str += errors[err] + '\n';
             }
+            alert(err_str);
+          }
         }
     
     // Put available quantity in textbox (retreived from products.json)
@@ -50,7 +52,6 @@
                 checkQuantityTextbox(qtyTextbox[`quantity${i}`]);
             }
         }
-
 </script>
 
 

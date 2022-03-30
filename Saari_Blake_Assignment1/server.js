@@ -61,7 +61,7 @@ function checkQuantityTextbox(qtyTextbox) {
                 available_quantity = true;
             }
             if (quantities[i] > products[i].quantity_available) {
-                errors['available_' + i] = `We don't have ${(quantities[i])} ${products[i].item} ready to ship!`
+                errors['available_' + i] = `We don't have ${(quantities[i])} ${products[i].item} ready to ship, order less or check our stock later!`
             }
         }
 
