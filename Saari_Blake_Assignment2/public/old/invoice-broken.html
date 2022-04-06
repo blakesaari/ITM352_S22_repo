@@ -1,0 +1,131 @@
+<!-- Load Product Data -->
+    <script src="../products.json"></script>
+
+<!-- Load Company Data -->
+    <script src="./data/invoice_data.js"></script>
+
+<!-- Page Formatting-->
+    <link rel="stylesheet" href="./css/invoice2-style.css">
+
+<!-- Load Favicon-->
+    <link rel="shortcut icon" href="./images/favicon.ico">
+
+<script>
+    // Query String Data -> Array
+        let params = (new URL(document.location)).searchParams;
+        var quantities = [];
+        if (params.has("quantity")) {
+                quantities = JSON.parse(params.get(`quantity`));
+                }
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+</head>
+<body>
+ <br>
+    <h1>THE MEAT LOCKER</h1>
+    <h3>The highest quality beef shipped to your doorstep.</h3>
+
+    <div class="invoice-box">
+        <table>
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                <img src="images/logo.png" alt="Company logo" style="width: 100%; max-width: 300px" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td>
+                                <script>
+                                    document.write(`
+                                    ${company} <br />
+                                    ${address} <br />
+                                    ${city}, ${state} ${zipcode}
+                                    `)
+                                </script>
+                            </td>
+
+                            <td>
+                                <br>
+                                Created: <script>document.write(today)</script><br />
+                                Due: <script>document.write(due_date)</script>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="heading">
+                <td>Item</td>
+                <td>Quantity</td>
+                <td>Price</td>
+            </tr>
+
+            <script>
+                var subtotal = 0;
+                for (i = 0; i < products.length; i++) {
+                var extended_price = (products[i].price * quantities[i])
+                subtotal = subtotal + extended_price;
+                if (quantities[i] != 0) {
+                    document.write(`
+                    <tr class="item">
+                        <td>${products[i]['item']}</td>
+                        <td>${quantities[i]}</td>
+                        <td>$${products[i]['price']}</td>
+                    `)
+                }
+            }
+
+            var tax = (subtotal * 0.045)
+            var shipping = 0;
+                // Subtotal if less than $20
+            if (subtotal < 20){
+                    shipping = 3;
+                // Subtotal if less than $50 and over $20
+                } else if (subtotal >= 20 && subtotal < 50){ 
+                    shipping = 5;
+                // Subtotal if more than $50
+                } else if (subtotal >= 50) {
+                    shipping = subtotal * 0.05;
+                }
+            // Total Calculations
+            var total = (subtotal + shipping + tax)
+        </script>        
+
+            <tr class="subtotal">
+                <td></td>
+                
+
+                <td>Sub-total: $385.00</td>
+            </tr>
+
+            <tr class="tax">
+                <td></td>
+
+                <td>Tax: $5.00</td>
+            </tr>
+
+            <tr class="total">
+                <td></td>
+
+                <td>Total: $6.00</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

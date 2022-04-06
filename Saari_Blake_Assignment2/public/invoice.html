@@ -1,0 +1,229 @@
+<!-- Load Product Data -->
+<script src="../products.json"></script>
+
+<!-- Load Company Data -->
+    <script src="./data/invoice_data.js"></script>
+
+<!-- Page Formatting-->
+    <link rel="stylesheet" href="./css/invoice-style.css">
+
+<!-- Load Favicon-->
+    <link rel="shortcut icon" href="./images/favicon.ico">
+
+<script>
+    // Query String Data -> Array
+        let params = (new URL(document.location)).searchParams;
+        var quantities = [];
+        if (params.has("quantity")) {
+                quantities = JSON.parse(params.get(`quantity`));
+                }
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
+    <!--  All snippets are MIT license http://bootdey.com/license -->
+    <title>Invoice</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<div class="page-content container">
+    <div class="page-header text-blue-d2">
+
+        <div class="page-tools">
+
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container px-0">
+        <div class="row mt-4">
+            <div class="col-12 col-lg-12">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="text-center text-150">
+                            <span class="text-default-d3">Invoice: The Meat Locker</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- .row -->
+
+                <hr class="row brc-default-l1 mx-n1 mb-4" />
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div>
+                            <span class="text-sm text-grey-m2 align-middle">From:</span>
+                            <span class="text-600 text-110 text-blue align-middle">The Meat Locker</span>
+                        </div>
+                        <div class="text-grey-m2">
+                            <div class="my-1">
+                                <script>
+                                    document.write(`
+                                    ${street}
+                                    `)
+                                </script>
+                            </div>
+                            <div class="my-1">
+                                <script>
+                                    document.write(`
+                                    ${city}, ${state} ${zipcode}
+                                    `)
+                                </script>
+                            </div>
+                            <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b class="text-600"><script>
+                                document.write(`${phone_number}`)
+                            </script></b></div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+
+                    <div class="text-95 col-sm-6 align-self-start d-sm-flex justify-content-end">
+                        <hr class="d-sm-none" />
+                        <div class="text-grey-m2">
+
+                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Issue Date:</span> <script> document.write(today) </script> </div>
+
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-borderless border-0 border-b-2 brc-default-l1">
+                        <thead class="bg-none bgc-default-tp1">
+                            <tr class="text-white">
+                                <th class="opacity-2">#</th>
+                                <th>Description</th>
+                                <th>Qty</th>
+                                <th>Unit Price</th>
+                                <th width="140">Amount</th>
+                            </tr>
+                        </thead>
+
+                    <script> 
+                        var subtotal = 0;
+                        for (i = 0; i < products.length; i++) {
+                            var extended_price = (products[i].price * quantities[i])
+                            subtotal = subtotal + extended_price;
+                            if (quantities[i] != 0) {
+                                document.write(`
+                                <tbody class="text-95 text-secondary-d3">
+                                <tr></tr>
+                            <tr>
+                                <td>${[i+1]}</td>
+                                <td>${products[i]['item']}</td>
+                                <td>${quantities[i]}</td>
+                                <td class="text-95">$${products[i]['price'].toFixed(2)}</td>
+                                <td class="text-secondary-d2">$${(products[i]['price'] * quantities[i]).toFixed(2)}</td>
+                            </tr> 
+                            </tbody>
+                           `);
+                            }
+                        }
+                    
+                        </script>
+
+                    </table>
+                    </div>
+
+                    <div class="row border-b-2 brc-default-l2"></div>
+                    </div>
+
+                   <script>
+                        var tax = (subtotal * 0.045)
+                        var shipping = 0;
+                        // Subtotal if less than $20
+                            if (subtotal < 20){
+                                shipping = 3;
+                            // Subtotal if less than $50 and over $20
+                            } else if (subtotal >= 20 && subtotal < 50){ 
+                                shipping = 5;
+                            // Subtotal if more than $50
+                            } else if (subtotal >= 50) {
+                                shipping = subtotal * 0.05;
+                            }
+                        // Total Calculations
+                            var total = (subtotal + shipping + tax)
+                            
+                        document.write(`    
+
+                        <div class="col-12 col-sm-10 text-grey text-90 order-first order-sm-last">
+                            <div class="row my-2">
+                                <div class="col-7 text-right">
+                                    Subtotal
+                                </div>
+                                <div class="col-5">
+                                    <span class="text-120 text-secondary-d1">$${subtotal.toFixed(2)}</span>
+                                </div>
+                            </div>
+
+                            <div class="row my-2">
+                                <div class="col-7 text-right">
+                                    Tax (4.5%)
+                                </div>
+                                <div class="col-5">
+                                    <span class="text-110 text-secondary-d1">$${tax.toFixed(2)}</span>
+                                </div>
+                            </div>
+
+                            <div class="row my-2">
+                                <div class="col-7 text-right">
+                                   Shipping
+                                </div>
+                                <div class="col-5">
+                                    <span class="text-110 text-secondary-d1">$${shipping.toFixed(2)}</span>
+                                </div>
+                            </div>
+
+                            <div class="row my-2 align-items-center bgc-primary-l3 p-2">
+                                <div class="col-7 text-right">
+                                    Total Amount
+                                </div>
+                                <div class="col-5">
+                                    <span class="text-150 text-success-d3 opacity-2">$${total.toFixed(2)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `)
+                    </script>
+                    
+                    <hr />
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <table class = "policy">               
+        <tr>
+            <td colspan="4"> <strong>
+                <br>
+                THE MEAT LOCKER SHIPPING POLICY:
+                </br>
+                <br>
+                A subtotal $0 - $250 will be charged $15 for shipping.
+                <br>
+                A subtotal $250 - $500 will be charged $25 for shipping.
+                <br>
+                A subtotal over $500 will be charged 15% of the subtotal.
+                </br>
+            </strong>
+        </tr>
+    </table> 
+
+</style>
+
+<script type="text/javascript">
+</script>
+</body>
+</html>

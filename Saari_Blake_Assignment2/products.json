@@ -1,0 +1,49 @@
+[
+    {
+    "item": "Filet Mignon",
+    "price": 140.00,
+    "image": "./images/filet-mignon.png",
+    "quantity_available": 12,
+    "description": "A tender cut of beef from the narrow front part of the tenderloin."
+    },
+
+    {
+    "item": "Strip Steak",
+    "price": 125.00,
+    "image": "./images/strip-steak.png",
+    "quantity_available": 11,
+    "description": "Tender cut of meat from the short loin section, features heavy marbling."
+    },
+    
+    {
+    "item": "Prime Rib",
+    "price": 175.00,
+    "image": "./images/prime-rib.png",
+    "quantity_available": 16,
+    "description": "A cut of beef from the primal rib, one of the nine primal cuts of beef."
+    },
+
+    {
+    "item": "Tri-Tip",
+    "price": 65.00,
+    "image": "./images/tri-tip.png",
+    "quantity_available": 17,
+    "description": "A triangular shaped cut at the tip of the sirloin, extremely flavorful and tender."
+    },
+
+    {
+    "item": "Ribeye",
+    "price": 150.00,
+    "image": "./images/rib-eye.png",
+    "quantity_available": 21,
+    "description": "Sits at the top of the rib primal, the part of the cow between the chuck and the loin."
+    },
+
+    {
+        "item": "Porterhouse",
+        "price": 220.00,
+        "image": "./images/porterhouse.png",
+        "quantity_available": 11,
+        "description": "Cut from the junction of the tenderloin and top loin, it delivers a mouthwatering combination of filet mignon New York strip."
+        }
+]

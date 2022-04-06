@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Created by: Blake Saari -->
+<!-- Page Containing Products -->
+
+<!-- Load Product Data -->
+<script src="../products.json"></script>
+
+
+<script>
+    // Determines valid quantity (If "q" is a negative interger)
+        function isNonNegInt(q, return_errors = false) {
+            errors = []; // assume no errors at first
+            if (q == '') q = 0; // handle blank inputs as if they are 0
+            if (Number(q) != q) errors.push('<b><font color="red">Not a number!</font></b>'); // Check if string is a number value
+            if (q < 0) errors.push('<b><font color="red">Negative value!</font></b>'); // Check if it is non-negative
+            if (parseInt(q) != q) errors.push('<b><font color="red">Not an integer!</font></b>'); // Check that it is an integer
+            return return_errors ? errors : (errors.length == 0);
+        };
+
+    // Determines input in textbox
+        function checkQuantityTextbox(qtyTextbox) {
+            errs = isNonNegInt(qtyTextbox.value, true);
+            if (errs.length == 0) errs = ['Want to purchase: '];
+            if (qtyTextbox.value.trim() == '') errs = ['Type desired quantity: '];
+            document.getElementById(qtyTextbox.name + '_label').innerHTML = errs.join('<font color="red">, </font>');
+        };
+   
+    // Derived from Example Assignment 1
+        let params = (new URL(document.location)).searchParams;
+        window.onload = function () {
+            if (params.has('errors')) {
+                var errors = JSON.parse(params.get('errors'));
+                let err_str = '';
+                for (err in errors) {
+                    err_str += errors[err] + '\n';
+                }
+            }
+        }
+    
+    // Put available quantity in textbox (retreived from products.json)
+        if (params.has('quantity')) {
+            var quantities = JSON.parse(params.get('quantity'));
+            for (i in quantities) {
+                qtyTextbox[`quantity${i}`].value = quantities[i];
+                checkQuantityTextbox(qtyTextbox[`quantity${i}`]);
+            }
+        }
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Steak Stop</title>
+    
+    <!-- Style File -->
+    <link rel="stylesheet" href="/css/product-style.css">
+</head>
+<body>
+    <div class="banner">
+        <h1>
+            Blake's Steak Stop
+        </h1>
+    </div>
+
+    <div>
+        <main>
+            <form name="qtyTextbox" action="./purchase" method="POST">
+                <input type="submit" class="button" value="Purchase" name="purchase_submit" onclick="">
+                <script>
+                    // Print products on page
+                    for(i = 0; i < products.length; i++) {
+                        document.write(
+                            `<section class = "product_display">
+                                <br>
+                                <img src="${products[i].image}" align="left">
+                                </br>
+                            </section>
+                            
+                            <section class = "product_text">
+                                <p>
+                                    <br><h2>${products[i].item}</h2></br>
+                                    <br>${products[i].description}</br>
+                                    <br><b>$${products[i].price.toFixed(2)}</b></br>
+                                    <br>
+                                        <label id = "quantity${i}_label"> Enter Quantity Desired: </label>
+                                        <input type = "text" placeholder = "Quantity Available: ${products[i].quantity_available}" name = "quantity[${i}]" onekeyup="checkQuantityTextbox(this);">
+                                    </br>
+                                </p>
+                            </section>
+                            `)
+                    }
+                </script>
+            </form>
+        </main>
+    </div>
+</body>
+</html>
