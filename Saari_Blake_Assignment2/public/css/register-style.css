@@ -14,22 +14,27 @@ h1 {
     margin-right: 10px;
     font-family:Verdana, Arial, Helvetica, sans-serif;
     font-size:14px;
+    margin: 20px 0 0 280px;
     }
     
     form ul li input, select, span {
     float: left;
     margin-bottom: 10px;
+    margin: 20px 0 0 20px;
+
     }
     
     form textarea {
     float: left;
     width: 350px;
     height: 150px;
+    margin: 20px 0 0 280px;
+
     }
     
     [type="submit"] {
     clear: left;
-    margin: 20px 0 0 230px;
+    margin: 20px 0 0 400px;
     font-size:18px
     }
     
