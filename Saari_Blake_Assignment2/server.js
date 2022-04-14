@@ -92,7 +92,7 @@ if (fs.existsSync(user_data)) {
         for (i in quantities) {
             products[i].quantity_available -= Number(quantities[i]);
         }
-        response.redirect('./invoice.html?' + qs.stringify(quantity_object));
+        response.redirect('./login.html?' + qs.stringify(quantity_object));
     }
         else {
             let errors_obj = { "errors": JSON.stringify(errors) };
