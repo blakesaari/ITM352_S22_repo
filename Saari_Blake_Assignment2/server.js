@@ -35,6 +35,7 @@ function checkQuantityTextbox(qtyTextbox) {
     
     // Load QueryString Package
         const qs = require('querystring');
+const { response } = require('express');
 
 // Get Body
     app.use(parser.urlencoded({extended: true}));
@@ -95,25 +96,45 @@ function checkQuantityTextbox(qtyTextbox) {
 // Route all other GET requests to files in public 
     app.use(express.static(__dirname + '/public'));
 
-// Authentication
-    const { auth } = require('express-openid-connect');
+// Load User Data
+    var user_data = require(__dirname + '/public/data/user_data.js');
 
-    const config = {
-    authRequired: false,
-    auth0Logout: true,
-    secret: 'a long, randomly-generated string stored in env',
-    baseURL: 'http://localhost:8080',
-    clientID: 'QQGmkopmFUW3OQWPpA63QqPcz4ukRQ5x',
-    issuerBaseURL: 'https://dev-211diq-5.us.auth0.com'
-    };
+//Login
 
-    // auth router attaches /login, /logout, and /callback routes to the baseURL
-        app.use(auth(config));
+    // Login Form
 
-    // req.isAuthenticated is provided from the auth router
-        app.get('/', (req, res) => {
-        res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+    app.get("/login", function (request, response) {
+
+        // Give a simple login form
+        str = `
+        <body>
+        <form action="" method="POST">
+        <input type="text" name="email" size="40" placeholder="enter email" ><br />
+        <input type="password" name="password" size="40" placeholder="enter password"><br />
+        <input type="submit" value="Submit" id="submit">
+        </form>
+        </body>
+            `;
+        response.send(str);
         });
+
+    // Processing Login
+
+    app.post("/login", function (request, response) {
+        // Process login and redirect if logged in, return to login if failed
+        the_email = request.body['email'].toLowerCase();
+        the_password = request.body['password'];
+        if (typeof user_data[the_email] != 'undefined') {
+            if (user_data[the_username].password == the_password) {
+                response.send(`User ${the_password} is logged in`);
+            } else {
+                response.send(`Wrong password!`);
+            }
+            return;
+        }
+        response.send(`${the_email} does not exist`);
+    });
+
 
 // Start server
     app.listen(8080, () => console.log(`listening on port 8080`));

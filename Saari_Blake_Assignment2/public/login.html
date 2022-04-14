@@ -1,0 +1,37 @@
+<script src="./data/user_data.js"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <form name = "login_process" action = "/login_process" method="POST">
+        <div class = "container">
+            <h1>Login</h1>
+            <p>Please login or register to get to your product invoice.</p>
+
+            <hr>
+
+            <label for = "email">Email</label>
+            <input type="text" placeholder="Enter email here" name = "email" id = "email" required>
+
+            <label for = "password">Password</label>
+            <input type="password" placeholder="Enter password here" name = "password" id = "password" required>
+
+            <hr>
+
+            <button type="submit" value="login" name="login">Log-in</button>
+
+        </div>
+
+    </form>
+
+
+
+</body>
+</html>
