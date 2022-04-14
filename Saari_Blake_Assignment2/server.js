@@ -63,40 +63,6 @@ if (fs.existsSync(user_data)) {
     next();
     });
 
-//--------Login Page Processing--------
-
-    // Processing Login
-    app.post("/login_process", function (request, response) {
-        // Process login and redirect if logged in, return to login if failed
-        var user_email = request.body['email'].toLowerCase();
-        var user_password = request.body['password'];
-        var errors = {};
-        
-        if (typeof users_data[user_email] != 'undefined') {
-            if (users_data[user_data].password == user_password) {
-
-                quantity_data['email'] = user_email;
-                quantity_data['name'] = users_data[user_email].name
-
-                let params = new URLSearchParams(quantity_data)
-
-                response.redirect('./invoice.html?' + params.toString());
-                return;
-            } else {
-                errors['login_erorr'] = `Wrong password!`;
-            }
-        }
-            else {
-                errors['login_erorr'] = `Wrong Email Address`;
-            }
-
-            // Redirect With Error Message
-            let params = new URLSearchParams(errors);
-            params.append('email', user_email);
-            response.redirect(`./login.html?` + params.toString());
-    });
-
-
 // Process purchase request (validate quantities, check quantity available)
 
     app.post("/purchase", function(request, response, next) {
@@ -134,6 +100,40 @@ if (fs.existsSync(user_data)) {
             response.redirect('./store.html?' + qs.stringify(quantity_object) + '&' + qs.stringify(errors_obj));
         }
     });
+
+//--------Login Page Processing--------
+
+    // Process Login
+    app.post("/login_process", function (request, response) {
+        // Process login and redirect if logged in, return to login if failed
+        var user_email = request.body['email'].toLowerCase();
+        var user_password = request.body['password'];
+        var errors = {};
+        
+        if (typeof users_data[user_email] != 'undefined') {
+            if (users_data[user_data].password == user_password) {
+
+                quantity_data['email'] = user_email;
+                quantity_data['name'] = users_data[user_email].name
+
+                let params = new URLSearchParams(quantity_data)
+
+                response.redirect('./invoice.html?' + params.toString());
+                return;
+            } else {
+                errors['login_erorr'] = `Wrong password!`;
+            }
+        }
+            else {
+                errors['login_erorr'] = `Wrong Email Address`;
+            }
+
+            // Redirect With Error Message
+            let params = new URLSearchParams(errors);
+            params.append('email', user_email);
+            response.redirect(`./login.html?` + params.toString());
+    });
+
 
 // Routing 
     app.get("/products.json", function(request, response, next)
