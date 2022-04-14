@@ -23,19 +23,35 @@ function checkQuantityTextbox(qtyTextbox) {
     var products = require(__dirname + '/products.json');
     // Initialize Quantity
         products.forEach((prod,i)=>{prod.quantity_available = products[i].quantity_available})
-
 // Load Packages
 
     // Load Express Package
         var express = require('express');
         var app = express();
+    
+    // Load File System Package
+        var fs = require('fs')
 
     // Load Body-Parser Package
         var parser = require("body-parser");
     
     // Load QueryString Package
         const qs = require('querystring');
-const { response } = require('express');
+        const { response } = require('express');
+
+// Load User Data
+    var user_data = require(__dirname + '/public/data/user_data.json');
+    // Store Purchase Data
+        var quantity_data = {};
+
+// Taken from Lab 14
+if (fs.existsSync(user_data)) {
+    // have reg data file, so read data and parse into user_data_obj
+    var data = fs.readFileSync(user_data, 'utf-8'); // read the file and return its content.
+    var users_data = JSON.parse(data);
+} else {
+    console.log(user_data + ' does not exist!');
+}
 
 // Get Body
     app.use(parser.urlencoded({extended: true}));
@@ -46,6 +62,40 @@ const { response } = require('express');
     console.log(request.method + ' to ' + request.path);
     next();
     });
+
+//--------Login Page Processing--------
+
+    // Processing Login
+    app.post("/login_process", function (request, response) {
+        // Process login and redirect if logged in, return to login if failed
+        var user_email = request.body['email'].toLowerCase();
+        var user_password = request.body['password'];
+        var errors = {};
+        
+        if (typeof users_data[user_email] != 'undefined') {
+            if (users_data[user_data].password == user_password) {
+
+                quantity_data['email'] = user_email;
+                quantity_data['name'] = users_data[user_email].name
+
+                let params = new URLSearchParams(quantity_data)
+
+                response.redirect('./invoice.html?' + params.toString());
+                return;
+            } else {
+                errors['login_erorr'] = `Wrong password!`;
+            }
+        }
+            else {
+                errors['login_erorr'] = `Wrong Email Address`;
+            }
+
+            // Redirect With Error Message
+            let params = new URLSearchParams(errors);
+            params.append('email', user_email);
+            response.redirect(`./login.html?` + params.toString());
+    });
+
 
 // Process purchase request (validate quantities, check quantity available)
 
@@ -95,46 +145,6 @@ const { response } = require('express');
     
 // Route all other GET requests to files in public 
     app.use(express.static(__dirname + '/public'));
-
-// Load User Data
-    var user_data = require(__dirname + '/public/data/user_data.js');
-
-//Login
-
-    // Login Form
-
-    app.get("/login", function (request, response) {
-
-        // Give a simple login form
-        str = `
-        <body>
-        <form action="" method="POST">
-        <input type="text" name="email" size="40" placeholder="enter email" ><br />
-        <input type="password" name="password" size="40" placeholder="enter password"><br />
-        <input type="submit" value="Submit" id="submit">
-        </form>
-        </body>
-            `;
-        response.send(str);
-        });
-
-    // Processing Login
-
-    app.post("/login", function (request, response) {
-        // Process login and redirect if logged in, return to login if failed
-        the_email = request.body['email'].toLowerCase();
-        the_password = request.body['password'];
-        if (typeof user_data[the_email] != 'undefined') {
-            if (user_data[the_username].password == the_password) {
-                response.send(`User ${the_password} is logged in`);
-            } else {
-                response.send(`Wrong password!`);
-            }
-            return;
-        }
-        response.send(`${the_email} does not exist`);
-    });
-
 
 // Start server
     app.listen(8080, () => console.log(`listening on port 8080`));
