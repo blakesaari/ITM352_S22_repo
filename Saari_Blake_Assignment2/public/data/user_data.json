@@ -1,1 +1,7 @@
-{"itm352@hawaii.edu":{"name":"ITM 352", "password":"grader"}}
+{
+    "itm352": {
+        "name" : "ITM 352",
+        "email" : "itm352@hawaii.edu",
+        "password" : "grader"
+    }
+}

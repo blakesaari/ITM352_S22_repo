@@ -48,9 +48,7 @@ function checkQuantityTextbox(qtyTextbox) {
 if (fs.existsSync(user_data)) {
     // have reg data file, so read data and parse into user_data_obj
     var data = fs.readFileSync(user_data, 'utf-8'); // read the file and return its content.
-    var users_data = JSON.parse(data);
-} else {
-    console.log(user_data + ' does not exist!');
+    var read_users_data = JSON.parse(data);
 }
 
 // Get Body
@@ -110,22 +108,18 @@ if (fs.existsSync(user_data)) {
         var user_password = request.body['password'];
         var errors = {};
         
-        if (typeof users_data[user_email] != 'undefined') {
-            if (users_data[user_data].password == user_password) {
+        if (typeof read_users_data[user_email] != 'undefined') {
+            if (read_users_data[user_email].password == user_password) {
 
-                quantity_data['email'] = user_email;
-                quantity_data['name'] = users_data[user_email].name
-
-                let params = new URLSearchParams(quantity_data)
-
-                response.redirect('./invoice.html?' + params.toString());
+                request.query['email'] = user_email
+                response.redirect('./invoice.html?' + qs.stringify(request.query));
                 return;
             } else {
                 errors['login_erorr'] = `Wrong password!`;
             }
         }
             else {
-                errors['login_erorr'] = `Wrong Email Address`;
+                errors['login_erorr'] = `${user_email} is not registered!`;
             }
 
             // Redirect With Error Message
