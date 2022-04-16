@@ -21,9 +21,6 @@
 
     // Load User Data
         var filename = require('./public/data/user_data.json');
-const validate = require('validate.js');
-const { URLSearchParams } = require('url');
-const { request } = require('http');
 
         // Store Data from Purchase
         var qty_obj = {};
