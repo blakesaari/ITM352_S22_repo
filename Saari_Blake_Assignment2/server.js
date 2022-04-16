@@ -20,13 +20,13 @@
             products.forEach((prod,i)=>{prod.quantity_available = products[i].quantity_available})
 
     // Load User Data
-        var filename = require('./public/data/user_data.json');
+        var filename = './public/data/user_data.json';
 
         // Store Data from Purchase
-        var qty_obj = {};
+            var qty_obj = {};
     
     // Load Body
-        app.use(parser.urlencoded({extended: true}));
+        app.use(express.urlencoded({extended: true}));
 
 // Determines valid quantity (If "q" is a negative interger)
     function isNonNegInt(q, return_errors = false) {
@@ -45,95 +45,6 @@
         if (qtyTextbox.value.trim() == '') errs = ['Type desired quantity: '];
         document.getElementById(qtyTextbox.name + '_label').innerHTML = errs.join('<font color="red">, </font>');
     };
-
-// ---------------------------- Log-in -------------------------------- // 
-
-if (fs.existsSync(filename)) {
-    // Lab 13 Example
-    var data_str = fs.readFileSync(filename, 'utf-8');
-    var user_str = JSON.parse(data_str);
-}
-else {
-    console.log(filename + ' does not exist.');
-}
-
-// Processing Login Request
-    app.post("/process_login", function (request, response) {
-        var errors = {};
-        var the_email = request.body['email'].toLowerCase();
-        var the_password = request.body['password'];
-
-            if (typeof user_str[the_email] != 'undefined') {
-                if (user_str[the_email].password == the_password) {
-                    qty_obj['email'] = the_email;
-                    qty_obj['fullname'] = user_str[the_email].name;
-
-                    let params = new URLSearchParams(qty_obj);
-                    response.redirect('./invoice.html?' + params.toString());
-                    return;
-                } else {
-                    errors['login_error'] = `Incorrect Password!`;
-                }
-            } else {
-                errors['login_error'] = `Incorrect E-Mail Address!`;
-            }
-            let params = new URLSearchParams(errors);
-            params.append('email', data_str);
-            response.redirect('./login.html' + params.toString());
-    });
-
-// ---------------------------- Register -------------------------------- // 
-    app.post("/process_registration", function(req, res){
-        console.log(request.body)
-
-        var registration_errors = {};
-        var registration_email = request.body['email'].toLowerCase();
-        var reigstration_password = request.body['password'];
-
-
-        // Name Validation
-        if(/^[A-Za-z, ]+$/.test(req.body.name)) {    
-        }
-        else {
-            registration_errors['name'] = `Only a-z characters allowed.`;
-        }
-
-        // Email Validation
-        if(ValidateEmail.test(registration_email)) {
-        }
-        else {
-            registration_errors['email'] = `Must enter a valid email address.`;
-        }
-
-        // Password Validation
-        if(reigstration_password < 6) {
-            registration_errors['password'] = `Minimum 6 character password.`
-        }
-
-            // Repeat Password Validation
-            if (reigstration_password != req.body.repeat_password) {
-                registration_errors[repeat_password] = 'Passwords do not match!';
-            }
-
-        if (object.keys(registration_errors).length == 0) {
-            console.log('No errors')
-            var email = registration_email;
-            user_str[registration_email] = {};
-            user_str[registration_email] = request.body.password;
-            user_str[registration_email].name = request.body.fullname;
-
-            fs.writeFileSync(filename, JSON.stringify(user_str), "utf-8");
-
-            qty_obj['email'] = registration_email
-            qty_obj['fullname'] = user_str[registration_email].name;
-            let params = new URLSearchParams(qty_obj);
-            response.redirect('./invoice.html' + params.toString());
-        } else {
-            request.body['registration_errors'] = JSON.stringify(registration_errors);
-            let params = new URLSearchParams(request.body);
-            response.redirect("./registration.html?" + params.toString());
-        }
-    });
 
 // ---------------------------- Purchase -------------------------------- // 
 // Processing Purchase Request (Validates Quantities & Checks Availability)
@@ -159,19 +70,52 @@ else {
     }
 
     let quantity_object = { "quantity" : JSON.stringify(quantities)};
-    console.log(Object.keys(errors));
         if (Object.keys(errors).length == 0) {
         for (i in quantities) {
             products[i].quantity_available -= Number(quantities[i]);
         }
-        qty_obj = quantity_object
-        response.redirect('./login.html?');
+        qty_data_obj = quantity_object
+        response.redirect('./login.html');
     }
         else {
             let errors_obj = { "errors": JSON.stringify(errors) };
             console.log(qs.stringify(quantity_object));
             response.redirect('./store.html?' + qs.stringify(quantity_object) + '&' + qs.stringify(errors_obj));
         }
+    });
+
+// ---------------------------- Log-in -------------------------------- // 
+
+if (fs.existsSync(filename)) {
+    // Lab 13 Example
+    var data_str = fs.readFileSync(filename, 'utf-8');
+    var user_str = JSON.parse(data_str);
+}
+else {
+    console.log(filename + ' does not exist.');
+}
+
+
+// Processing Login Request
+    app.post("/process_login", function (request, response) {
+        // Process login form POST and redirect to logged in page if ok, back to login page if not
+        var the_email = request.body['email'].toLowerCase();
+        var the_password = request.body['password'];
+
+        if (typeof user_str[the_email] != 'undefined') {
+            if (user_str[the_email].password == the_password) {
+                qty_data_obj['email'] = the_email;
+                qty_data_obj['fullname'] = user_str[the_email].name;
+                let params = new URLSearchParams(qty_data_obj);
+                console.log(qty_data_obj)
+                response.redirect('./invoice.html?' + params.toString());
+                return;
+            } else {
+                response.send(`Wrong password!`);
+            }
+            return;
+        }
+        response.send(`${the_email} does not exist`);
     });
 
 // Routing 
