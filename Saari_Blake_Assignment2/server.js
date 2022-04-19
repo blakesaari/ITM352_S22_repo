@@ -39,18 +39,6 @@ function checkQuantityTextbox(qtyTextbox) {
         const qs = require('querystring');
         const { response } = require('express');
 
-// Load User Data
-    var user_data = require(__dirname + '/public/data/user_data.json');
-    // Store Purchase Data
-        var quantity_data = {};
-
-// Taken from Lab 14
-if (fs.existsSync(user_data)) {
-    // have reg data file, so read data and parse into user_data_obj
-    var data = fs.readFileSync(user_data, 'utf-8'); // read the file and return its content.
-    var read_users_data = JSON.parse(data);
-}
-
 // Get Body
     app.use(parser.urlencoded({extended: true}));
 
@@ -101,21 +89,25 @@ if (fs.existsSync(user_data)) {
 
 //--------Login Page Processing--------
 
+// Load User Data
+var saved_data = require('./public/data/user_data.json');
+
+
     // Process Login
     app.post("/login_process", function (request, response) {
         // Process login and redirect if logged in, return to login if failed
-        var user_email = request.body['email'].toLowerCase();
-        var user_password = request.body['password'];
+        console.log(request.body, request.qeury)
+        let user_email = request.body['email'].toLowerCase();
+        let user_password = request.body['password'];
         var errors = {};
         
-        if (typeof read_users_data[user_email] != 'undefined') {
-            if (read_users_data[user_email].password == user_password) {
-
+        if (typeof users_registered_data[user_email] != 'undefined') {
+            if (users_registered_data[user_email].password == user_password) {
                 request.query['email'] = user_email
                 response.redirect('./invoice.html?' + qs.stringify(request.query));
                 return;
             } else {
-                errors['login_erorr'] = `Wrong password!`;
+                errors['login_erorr'] = `Wrong password for ${user_email}!`;
             }
         }
             else {
