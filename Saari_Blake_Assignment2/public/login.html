@@ -1,7 +1,20 @@
-<script src="./data/user_data.json"></script>
-
 <!DOCTYPE html>
 <html lang="en">
+
+<script src="./data/user_data.json"></script>
+
+<script>
+    window.onload = function () {
+        let params = (new URL(document.location)).searchParams;
+            if (params.has('login_err')) {
+                alert (params.get('login_err'));
+            }
+            if (params.has('email')) {
+                email.value = params.get('email')
+            }
+    }
+</script>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,7 +23,7 @@
 </head>
 <body>
     
-    <form name = "login_process" action = "/login_process" method="POST">
+    <form name = "process_login" action = "/process_login" method="POST">
         <div class = "container">
             <h1>Login</h1>
             <p>Please login or register to get to your product invoice.</p>
@@ -18,8 +31,8 @@
             <hr>
 
             <label for = "email">Email</label>
-            <input type="text" placeholder="Enter email here" name = "email" id = "email" required>
-
+            <input type="email" placeholder="Enter email here" name = "email" id = "email" required>
+            
             <label for = "password">Password</label>
             <input type="password" placeholder="Enter password here" name = "password" id = "password" required>
 

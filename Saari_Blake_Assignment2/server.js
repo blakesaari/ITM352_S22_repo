@@ -1,56 +1,53 @@
-// Based on Momoka Michimoto's (Fall 2021) server.js 
-
-// Determines valid quantity (If "q" is a negative interger)
-function isNonNegInt(q, return_errors = false) {
-    errors = []; // assume no errors at first
-    if (q == '') q = 0; // handle blank inputs as if they are 0
-    if (Number(q) != q) errors.push('<b><font color="red">Not a number!</font></b>'); // Check if string is a number value
-    if (q < 0) errors.push('<b><font color="red">Negative value!</font></b>'); // Check if it is non-negative
-    if (parseInt(q) != q) errors.push('<b><font color="red">Not an integer!</font></b>'); // Check that it is an integer
-    return return_errors ? errors : (errors.length == 0);
-};
-
-// Determines input in textbox
-function checkQuantityTextbox(qtyTextbox) {
-    errs = isNonNegInt(qtyTextbox.value, true);
-    if (errs.length == 0) errs = ['Want to purchase: '];
-    if (qtyTextbox.value.trim() == '') errs = ['Type desired quantity: '];
-    document.getElementById(qtyTextbox.name + '_label').innerHTML = errs.join('<font color="red">, </font>');
-};
-
-
-// Load Product Data
-    var products = require(__dirname + '/products.json');
-    // Initialize Quantity
-        products.forEach((prod,i)=>{prod.quantity_available = products[i].quantity_available})
 // Load Packages
 
     // Load Express Package
-        var express = require('express');
-        var app = express();
-    
+    var express = require('express');
+    var app = express();
+
     // Load File System Package
         var fs = require('fs')
 
     // Load Body-Parser Package
         var parser = require("body-parser");
-    
+
     // Load QueryString Package
         const qs = require('querystring');
         const { response } = require('express');
 
-// Get Body
-    app.use(parser.urlencoded({extended: true}));
+    // Load Product Data
+        var products = require(__dirname + '/products.json');
+        // Initialize Quantity
+            products.forEach((prod,i)=>{prod.quantity_available = products[i].quantity_available})
 
-// Monitor all requests
+    // Load User Data
+        var filename = './public/data/user_data.json';
 
-    app.all('*', function (request, response, next) {
-    console.log(request.method + ' to ' + request.path);
-    next();
-    });
+        // Store Data from Purchase
+            var qty_obj = {};
+    
+    // Load Body
+        app.use(express.urlencoded({extended: true}));
 
-// Process purchase request (validate quantities, check quantity available)
+// Determines valid quantity (If "q" is a negative interger)
+    function isNonNegInt(q, return_errors = false) {
+        errors = []; // assume no errors at first
+        if (q == '') q = 0; // handle blank inputs as if they are 0
+        if (Number(q) != q) errors.push('<b><font color="red">Not a number!</font></b>'); // Check if string is a number value
+        if (q < 0) errors.push('<b><font color="red">Negative value!</font></b>'); // Check if it is non-negative
+        if (parseInt(q) != q) errors.push('<b><font color="red">Not an integer!</font></b>'); // Check that it is an integer
+        return return_errors ? errors : (errors.length == 0);
+    };
 
+// Determines input in textbox
+    function checkQuantityTextbox(qtyTextbox) {
+        errs = isNonNegInt(qtyTextbox.value, true);
+        if (errs.length == 0) errs = ['Want to purchase: '];
+        if (qtyTextbox.value.trim() == '') errs = ['Type desired quantity: '];
+        document.getElementById(qtyTextbox.name + '_label').innerHTML = errs.join('<font color="red">, </font>');
+    };
+
+// ---------------------------- Purchase -------------------------------- // 
+// Processing Purchase Request (Validates Quantities & Checks Availability)
     app.post("/purchase", function(request, response, next) {
         var quantities = request.body['quantity'];
         var errors = {};
@@ -73,12 +70,12 @@ function checkQuantityTextbox(qtyTextbox) {
     }
 
     let quantity_object = { "quantity" : JSON.stringify(quantities)};
-    console.log(Object.keys(errors));
         if (Object.keys(errors).length == 0) {
         for (i in quantities) {
             products[i].quantity_available -= Number(quantities[i]);
         }
-        response.redirect('./login.html?' + qs.stringify(quantity_object));
+        qty_data_obj = quantity_object
+        response.redirect('./login.html');
     }
         else {
             let errors_obj = { "errors": JSON.stringify(errors) };
@@ -87,47 +84,47 @@ function checkQuantityTextbox(qtyTextbox) {
         }
     });
 
-//--------Login Page Processing--------
+// ---------------------------- Log-in -------------------------------- // 
 
-// Load User Data
-var saved_data = require('./public/data/user_data.json');
+if (fs.existsSync(filename)) {
+    // Lab 13 Example
+    var data_str = fs.readFileSync(filename, 'utf-8');
+    var user_str = JSON.parse(data_str);
+}
+else {
+    console.log(filename + ' does not exist.');
+}
 
 
-    // Process Login
-    app.post("/login_process", function (request, response) {
-        // Process login and redirect if logged in, return to login if failed
-        console.log(request.body, request.qeury)
-        let user_email = request.body['email'].toLowerCase();
-        let user_password = request.body['password'];
-        var errors = {};
-        
-        if (typeof users_registered_data[user_email] != 'undefined') {
-            if (users_registered_data[user_email].password == user_password) {
-                request.query['email'] = user_email
-                response.redirect('./invoice.html?' + qs.stringify(request.query));
+// Processing Login Request
+    app.post("/process_login", function (request, response) {
+        // Process login form POST and redirect to logged in page if ok, back to login page if not
+        var the_email = request.body['email'].toLowerCase();
+        var the_password = request.body['password'];
+
+        if (typeof user_str[the_email] != 'undefined') {
+            if (user_str[the_email].password == the_password) {
+                qty_data_obj['email'] = the_email;
+                qty_data_obj['fullname'] = user_str[the_email].name;
+                let params = new URLSearchParams(qty_data_obj);
+                console.log(qty_data_obj)
+                response.redirect('./invoice.html?' + params.toString());
                 return;
             } else {
-                errors['login_erorr'] = `Wrong password for ${user_email}!`;
+                response.send(`Wrong password!`);
             }
+            return;
         }
-            else {
-                errors['login_erorr'] = `${user_email} is not registered!`;
-            }
-
-            // Redirect With Error Message
-            let params = new URLSearchParams(errors);
-            params.append('email', user_email);
-            response.redirect(`./login.html?` + params.toString());
+        response.send(`${the_email} does not exist`);
     });
 
-
 // Routing 
-    app.get("/products.json", function(request, response, next)
-        {
-            response.type('.js');
-            var products_str = `var products = ${JSON.stringify(products)};`;
-            response.send(products_str);
-        });
+app.get("/products.json", function(request, response, next)
+    {
+        response.type('.js');
+        var products_str = `var products = ${JSON.stringify(products)};`;
+        response.send(products_str);
+    });
     
 // Route all other GET requests to files in public 
     app.use(express.static(__dirname + '/public'));
