@@ -1,27 +1,31 @@
 <!-- Created by: Blake Saari -->
 <!-- Utilizing Web3/Bootstrap/OnlineStore Template -->
-<!-- This page serves as a login page to enter their credentials and move to an invoice -->
+<!-- This page serves as a place for users to edit their login credentials -->
 
 <!DOCTYPE html>
 <html lang="en">
 
-<script src="./data/user_data.json"></script>
+<!-- Load Favicon-->
+<link rel="shortcut icon" href="./images/favicon.ico">
 
 <script>
     window.onload = function () {
         let params = (new URL(document.location)).searchParams;
-            if (params.has('login_error')) {
-                alert (params.get('login_error'));
-            }
+        // Alert if errors exist (Taken from Momoko Michimoto F21)
             if (params.has('email')) {
                 email.value = params.get('email')
             }
+            if (params.has('reset_errors')) {
+                var errors = JSON.parse(params.get('reset_errors'));
+                let errors_string = '';
+                for (err in errors) {
+                    errors_string += errors[err] + '\n';
+                    document.getElementById(`${err}_label`).innerHTML = `<font color="red">${errors[err]}</font>`;
+                }
+                alert(errors_string);
+            }
     }
 </script>
-
-  <!-- Load Favicon-->
-  <link rel="shortcut icon" href="./images/favicon.ico">
-
 
 <head>
     <meta charset="UTF-8">
@@ -66,33 +70,36 @@
       </div>
     </div>
   </nav>
-    
-    <form name = "process_login" action = "/process_login" method="POST">
-        <div class = "container">
-            <h1>Login</h1>
-            <p>Please login or sign-up to get to your product invoice and complete your purchase.</p>
 
-            <hr>
+    <form name = "change_password" action="./change_password" method="POST">
 
-            <label for = "email">Email</label>
-            <input type="email" placeholder="Enter email here" name = "email" id = "email" required>
-            
-            <label for = "password">Password</label>
-            <input type="password" placeholder="Enter password here" name = "password" id = "password" required>
+        <h2>Change your log-in credentials</h2>
 
-            <hr>
+        <div>
+        <input placeholder="E-mail" type="email" name="email" id="email">
+        <label class="form-label" id="email_label" for="email"></label>
+        </div>
 
-            <button type="submit" value="login" name="login">Log-in</button>
+        <div>
+        <input placeholder="Password" type="password" name="password" id="password">
+        <label class="form-label" id="password_label" for="password"></label>
+        </div>
 
+        
+        <div>
+        <input placeholder="Enter new password" type="password" name="newpassword" id="newpassword">
+        <label class="form-label" id="newpassword_label" for="newpassword"></label>
+        </div>
+
+        <div>
+        <input placeholder="Repeat new password" type="password" name="repeatnewpassword" id="repeatnewpassword">
+        <label class="form-label" id="repeatnewpassword_label" for="repeatnewpassword"></label>
+        </div>
+
+        <div>
+            <button type="submit" id="change_password" name="change_password" onclick="">Change Password</button>
         </div>
 
     </form>
-
-
-    <p class="mb-0">Don't have an account yet? <a href="registration.html" class="text-white-50 fw-bold">Sign Up</a>
-
-
-
-
 </body>
 </html>

@@ -1,37 +1,26 @@
 <!-- Created by: Blake Saari -->
 <!-- Utilizing Web3/Bootstrap/OnlineStore Template -->
-<!-- This page serves as a login page to enter their credentials and move to an invoice -->
+<!-- This page serves as a registration page to create a new user -->
 
 <!DOCTYPE html>
 <html lang="en">
-
-<script src="./data/user_data.json"></script>
-
-<script>
-    window.onload = function () {
-        let params = (new URL(document.location)).searchParams;
-            if (params.has('login_error')) {
-                alert (params.get('login_error'));
-            }
-            if (params.has('email')) {
-                email.value = params.get('email')
-            }
-    }
-</script>
-
-  <!-- Load Favicon-->
-  <link rel="shortcut icon" href="./images/favicon.ico">
-
+<link rel="stylesheet" href="./css/register-style.css">    
+<script src="scripts/email.js"></script>
 
 <head>
+    <!-- Load Favicon-->
+    <link rel="shortcut icon" href="./images/favicon.ico">
+    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     
     <!-- Load in Cascading Style Sheets -->
-    <link rel="stylesheet" href="/css/product-style.css">
+    <link rel="stylesheet" href="/css/register-style.css">
   
   </head>
   <body>
@@ -66,33 +55,22 @@
       </div>
     </div>
   </nav>
-    
-    <form name = "process_login" action = "/process_login" method="POST">
-        <div class = "container">
-            <h1>Login</h1>
-            <p>Please login or sign-up to get to your product invoice and complete your purchase.</p>
+</head>
+<body>
 
-            <hr>
-
-            <label for = "email">Email</label>
-            <input type="email" placeholder="Enter email here" name = "email" id = "email" required>
-            
-            <label for = "password">Password</label>
-            <input type="password" placeholder="Enter password here" name = "password" id = "password" required>
-
-            <hr>
-
-            <button type="submit" value="login" name="login">Log-in</button>
-
-        </div>
-
+    <form name='register' action="/registration" method="POST">
+        <ul id = 'register_form'>
+            <li><label for="email">Email:</label></li>
+            <li><input type="text" name="email" size="50" /></li>
+            <li><label for="fullname">Name:</label></li>
+            <li><input type="text" name="fullname" size="50" /></li>
+            <li><label for="passid">Password:</label></li>
+            <li><input type="password" name="password" size="50" /></li>
+            <li><label for="passid">Repeat password:</label></li>
+            <li><input type="password" name="repeat_password" size="50" /></li>
+            <li><input type="submit" name="submit" value="Submit" action="/registration" method="POST"></li>
+        </ul>
     </form>
-
-
-    <p class="mb-0">Don't have an account yet? <a href="registration.html" class="text-white-50 fw-bold">Sign Up</a>
-
-
-
 
 </body>
 </html>
