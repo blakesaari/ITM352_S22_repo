@@ -1,0 +1,53 @@
+{
+    "NY-Strip": [
+        {
+            "name" : "12oz New York Strip",
+            "price" : 55,
+            "weight" : 12
+        },
+        {
+            "name" : "16oz New York Strip",
+            "price" : 65,
+            "weight" : 16
+        },
+        {
+            "name" : "24oz New York Strip",
+            "price" : 85,
+            "weight" : 24
+        }
+    ],
+    "Ribeye" : [
+        {
+            "name" : "12oz Ribeye",
+            "price" : 60,
+            "weight" : 12
+        },
+        {
+            "name" : "16oz Ribeye",
+            "price" : 70,
+            "weight" : 16
+        },
+        {
+            "name" : "24oz Ribeye",
+            "price" : 95,
+            "weight" : 24
+        }
+    ],
+    "Tri-Tip" : [
+        {
+            "name" : "24oz Tri-Tip",
+            "price" : 75,
+            "weight" : 23
+        },
+        {
+            "name" : "34oz Tri-Tip",
+            "price" : 100,
+            "weight" : 34
+        },
+        {
+            "name" : "46oz Tri-Tip",
+            "price" : 140,
+            "weight" : 46
+        }
+    ]
+}
