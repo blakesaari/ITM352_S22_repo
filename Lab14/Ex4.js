@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+app.use(express.urlencoded({extended:true}));
 
 
 app.get('/', function(req,res) {
@@ -12,7 +13,7 @@ app.get('/', function(req,res) {
         );
 });
 
-app.post('/processform', function(req, res) {
+app.post('/process_form', function(req, res) {
     if (typeof req.body['Submit'] != 'undefined') {
         for (value in req.body) {
             if (value === "Tyler") {
