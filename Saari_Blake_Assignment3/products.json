@@ -1,53 +1,80 @@
-{
-    "NY-Strip": [
+{ 
+    "choice":[ 
         {
-            "name" : "12oz New York Strip",
-            "price" : 55,
-            "weight" : 12
+            "name": "16oz Ribeye",
+            "price": 20
         },
         {
-            "name" : "16oz New York Strip",
-            "price" : 65,
-            "weight" : 16
+            "name": "16oz Tenderloin",
+            "price": 25
         },
         {
-            "name" : "24oz New York Strip",
-            "price" : 85,
-            "weight" : 24
+            "name": "16oz Hanger Steak",
+            "price": 20
+        },
+        {
+            "name": "16oz Flank Steak",
+            "price": 20
+        },
+        {
+            "name": "16oz Short Ribs",
+            "price": 25
+        },
+        {
+            "name": "32oz Porterhouse",
+            "price": 65
         }
     ],
-    "Ribeye" : [
+    "prime": [ 
         {
-            "name" : "12oz Ribeye",
-            "price" : 60,
-            "weight" : 12
+            "name": "16oz Ribeye",
+            "price": 25
         },
         {
-            "name" : "16oz Ribeye",
-            "price" : 70,
-            "weight" : 16
+            "name": "16oz Tenderloin",
+            "price": 30
         },
         {
-            "name" : "24oz Ribeye",
-            "price" : 95,
-            "weight" : 24
+            "name": "16oz Hanger Steak",
+            "price": 25
+        },
+        {
+            "name": "16oz Flank Steak",
+            "price": 25
+        },
+        {
+            "name": "16oz Short Ribs",
+            "price": 30
+        },
+        {
+            "name": "32oz Porterhouse",
+            "price": 75
         }
     ],
-    "Tri-Tip" : [
+    "wagyu": [
         {
-            "name" : "24oz Tri-Tip",
-            "price" : 75,
-            "weight" : 23
+            "name": "16oz Ribeye",
+            "price": 50
         },
         {
-            "name" : "34oz Tri-Tip",
-            "price" : 100,
-            "weight" : 34
+            "name": "16oz Tenderloin",
+            "price": 60
         },
         {
-            "name" : "46oz Tri-Tip",
-            "price" : 140,
-            "weight" : 46
+            "name": "16oz Hanger Steak",
+            "price": 50
+        },
+        {
+            "name": "16oz Flank Steak",
+            "price": 55
+        },
+        {
+            "name": "16oz Short Ribs",
+            "price": 50
+        },
+        {
+            "name": "32oz Porterhouse",
+            "price": 160
         }
     ]
 }
