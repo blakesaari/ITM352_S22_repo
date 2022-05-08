@@ -5,7 +5,7 @@
         // get the query string
         let params = (new URL(document.location)).searchParams;
         if (params.has('products_key')) {
-            var products_key = params.get('products_key');
+            var this_products_key = params.get('products_key');
         } else {
             document.write('no products key in query string');
             document.stop;
@@ -19,7 +19,7 @@
     </script>
 </head>
 <center>
-    <script> nav_bar(products_key, products_data);</script>
+    <script> nav_bar(this_products_key, products_data);</script>
 </center>
 
 <script>
@@ -35,11 +35,11 @@
             order_str += `You want ${params.get(`quantities[${i}]`)} of ${products[i]['name']}<br>`;
         }
     } else {
-        order_str += `<h1>Please select what ${products_key} you want</h1><br>`;
+        order_str += `<h1>Please select what ${this_products_key} steak you want</h1><br>`;
         // We put the whole table in the form so that anything entered in it will get submitted
         order_str += `
-            <FORM action="" method="GET">
-            <INPUT TYPE="HIDDEN" NAME="products_key" VALUE="${products_key}">
+            <FORM action="/update_cart" method="POST">
+            <INPUT TYPE="HIDDEN" NAME="products_key" VALUE="${this_products_key}">
                 <TABLE BORDER>
                     <TR><TD><B><BIG>Description</TD><TD><B><BIG>Price</TD><TD><B><BIG>Quantity Desired</TD></TR>`;
 

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <script> 
+            var subtotal = 0;
+            for (i = 0; i < products.length; i++) {
+                var extended_price = (products[i].price * quantities[i])
+                subtotal = subtotal + extended_price;
+                if (quantities[i] != 0) {
+                    document.write(`
+                    <tbody class="text-95 text-secondary-d3">
+                    <tr></tr>
+                <tr>
+                    <td>${[i+1]}</td>
+                    <td>${products[i]['item']}</td>
+                    <td>${quantities[i]}</td>
+                    <td class="text-95">$${products[i]['price'].toFixed(2)}</td>
+                    <td class="text-secondary-d2">$${(products[i]['price'] * quantities[i]).toFixed(2)}</td>
+                </tr> 
+                </tbody>
+            `);
+                }
+            }
+        
+            </script>
+
+        </table>
+        </div>
+
+        <div class="row border-b-2 brc-default-l2"></div>
+        </div>
+
+    <script>
+            var tax = (subtotal * 0.045)
+            var shipping = 0;
+            // Subtotal if less than $20
+                if (subtotal < 20){
+                    shipping = 3;
+                // Subtotal if less than $50 and over $20
+                } else if (subtotal >= 20 && subtotal < 50){ 
+                    shipping = 5;
+                // Subtotal if more than $50
+                } else if (subtotal >= 50) {
+                    shipping = subtotal * 0.05;
+                }
+            // Total Calculations
+                var total = (subtotal + shipping + tax)
+                
+            document.write(`    
+
+            <div class="col-12 col-sm-10 text-grey text-90 order-first order-sm-last">
+                <div class="row my-2">
+                    <div class="col-7 text-right">
+                        Subtotal
+                    </div>
+                    <div class="col-5">
+                        <span class="text-120 text-secondary-d1">$${subtotal.toFixed(2)}</span>
+                    </div>
+                </div>
+
+                <div class="row my-2">
+                    <div class="col-7 text-right">
+                        Tax (4.5%)
+                    </div>
+                    <div class="col-5">
+                        <span class="text-110 text-secondary-d1">$${tax.toFixed(2)}</span>
+                    </div>
+                </div>
+
+                <div class="row my-2">
+                    <div class="col-7 text-right">
+                    Shipping
+                    </div>
+                    <div class="col-5">
+                        <span class="text-110 text-secondary-d1">$${shipping.toFixed(2)}</span>
+                    </div>
+                </div>
+
+                <div class="row my-2 align-items-center bgc-primary-l3 p-2">
+                    <div class="col-7 text-right">
+                        Total Amount
+                    </div>
+                    <div class="col-5">
+                        <span class="text-150 text-success-d3 opacity-2">$${total.toFixed(2)}</span>
+                    </div>
+                </div>
+            </div>
+        `)
+        </script>
+        
+        <hr />
+        
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <table class = "policy">               
+    <tr>
+    <td colspan="4"> <strong>
+    <br>
+    THE MEAT LOCKER SHIPPING POLICY:
+    </br>
+    <br>
+    A subtotal $0 - $250 will be charged $15 for shipping.
+    <br>
+    A subtotal $250 - $500 will be charged $25 for shipping.
+    <br>
+    A subtotal over $500 will be charged 15% of the subtotal.
+    </br>
+    </strong>
+    </tr>
+    </table> 
+</body>
+</html>

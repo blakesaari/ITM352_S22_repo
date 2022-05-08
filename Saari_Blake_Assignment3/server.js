@@ -28,6 +28,11 @@ app.get("/add_to_cart", function (request, response) {
     response.redirect('./cart.html');
 });
 
+app.post("/update_cart", function (request, response) {
+    response.send(request.body);
+    
+});
+
 app.get("/get_cart", function (request, response) {
     response.json(request.session.cart);
 });
