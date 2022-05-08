@@ -16,6 +16,11 @@
             // Parsing JSON string into object
             products_data = JSON.parse(response);
         });
+        var cart;
+        loadJSON('get_cart', function (response) {
+            cart = JSON.parse(response);
+        });
+
     </script>
 </head>
 <center>
@@ -44,11 +49,12 @@
                     <TR><TD><B><BIG>Description</TD><TD><B><BIG>Price</TD><TD><B><BIG>Quantity Desired</TD></TR>`;
 
         for (i = 0; i < products.length; i++) {
+            var qty = 0;
             order_str += `<TR><TD>${products[i]['name']}</TD><TD>${products[i]['price']}</TD><TD>
-                <INPUT TYPE="TEXT"  name="quantities[${i}]"></TD></TR>`;
+                <INPUT TYPE="TEXT"  name="quantities[${i}] value ="${qty}"></TD></TR>`;
         }
         order_str += `</TABLE><br>
-<INPUT TYPE="SUBMIT"  name="Submit" value="Select">
+<INPUT TYPE="SUBMIT"  name="submit" value="Add to Cart">
 </FORM>`;
     } // this closes the else for the form and table display
     document.write(order_str);

@@ -21,19 +21,27 @@ app.post("/get_products_data", function (request, response) {
     response.json(products_data);
 });
 
+/*
 app.get("/add_to_cart", function (request, response) {
     var products_key = request.query['products_key']; // get the product key sent from the form post
     var quantities = request.query['quantities'].map(Number); // Get quantities from the form post and convert strings from form post to numbers
     request.session.cart[products_key] = quantities; // store the quantities array in the session cart object with the same products_key. 
     response.redirect('./cart.html');
 });
+*/
 
 app.post("/update_cart", function (request, response) {
-    response.send(request.body);
-    
+    console.log(request.body);
+    var prod_key = request.body.products_key;
+    if(typeof request.session.cart == 'undefined') { 
+            request.session.cart = {}; 
+        } 
+    request.session[prod_key] = request.body.quantities;
+    console.log(request.session)
+    response.redirect(`./store.html?products_key=${prod_key}`);
 });
 
-app.get("/get_cart", function (request, response) {
+app.post("/get_cart", function (request, response) {
     response.json(request.session.cart);
 });
 
