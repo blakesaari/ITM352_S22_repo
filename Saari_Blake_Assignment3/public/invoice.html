@@ -5,14 +5,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <!-- Page Formatting-->
+    <link rel="stylesheet" href="./css/invoice-style.css">
+
+
+    <!-- Load Functions -->
+    <script src="./functions.js"></script>
+
+    <script>
+
+        // get the query string
+            let params = (new URL(document.location)).searchParams;
+            if (params.has('products_key')) {
+                var this_products_key = params.get('products_key');
+            } else {
+                document.write('no products key in query string');
+                document.stop;
+            }
+
+        var products_data;
+            loadJSON('get_products_data', function (response) {
+                // Parsing JSON string into object
+                products_data = JSON.parse(response);
+            });
+            var cart;
+            loadJSON('get_cart', function (response) {
+                cart = JSON.parse(response);
+            });
+
+    </script>
+
 </head>
 <body>
         <script> 
             var subtotal = 0;
-            for (i = 0; i < products.length; i++) {
+            var shopping_cart = request.session.cart;
+            for(i=0; i<products_data[this_products_key].length; i++) {
                 var extended_price = (products[i].price * quantities[i])
                 subtotal = subtotal + extended_price;
-                if (quantities[i] != 0) {
+                if (typeof shopping_cart[this_products_key] == 'undefined') continue;
+                qty = shopping_cart[this_products_key][i]; 
+                if (qty> 0) {
                     document.write(`
                     <tbody class="text-95 text-secondary-d3">
                     <tr></tr>

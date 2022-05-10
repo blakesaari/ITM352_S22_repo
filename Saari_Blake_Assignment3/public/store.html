@@ -3,23 +3,23 @@
     <script>
 
         // get the query string
-        let params = (new URL(document.location)).searchParams;
-        if (params.has('products_key')) {
-            var this_products_key = params.get('products_key');
-        } else {
-            document.write('no products key in query string');
-            document.stop;
-        }
+            let params = (new URL(document.location)).searchParams;
+            if (params.has('products_key')) {
+                var this_products_key = params.get('products_key');
+            } else {
+                document.write('no products key in query string');
+                document.stop;
+            }
 
         var products_data;
-        loadJSON('get_products_data', function (response) {
-            // Parsing JSON string into object
-            products_data = JSON.parse(response);
-        });
-        var cart;
-        loadJSON('get_cart', function (response) {
-            cart = JSON.parse(response);
-        });
+            loadJSON('get_products_data', function (response) {
+                // Parsing JSON string into object
+                products_data = JSON.parse(response);
+            });
+            var cart;
+            loadJSON('get_cart', function (response) {
+                cart = JSON.parse(response);
+            });
 
     </script>
 </head>
@@ -59,3 +59,4 @@
     } // this closes the else for the form and table display
     document.write(order_str);
 </script>
+
