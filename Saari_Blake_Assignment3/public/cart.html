@@ -4,17 +4,49 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="stylesheets/cart-style.css">
+        <!-- Load Stylesheets -->
+        <link rel="stylesheet" href="stylesheets/cart-style.css">
+
+        <!-- Load Functions -->
+        <script src="./functions.js"></script>
+
+        <!-- Open Sans Font -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css">
+
     <title>Document</title>
 </head>
 <body>
-    <div class=”cart”>
-        <div class="header">
-            <h3 class=”heading”>Shopping Cart</h3>
-            <h5 class=”action”>Remove all</h5>
-        </div>
-    </div>
 
+<script>
+    var cart;
+    loadJSON('get_cart', function (response) {
+    cart = JSON.parse(response);
+    });
+</script>
     
+
+<body>
+    <div class="cart">
+        
+        <div class="Header">
+            <h3 class="Heading">Shopping Cart</h3>
+            <h5 class="Action">Remove all</h5>
+        </div>
+
+        <div class="Cart-Items">
+            <div class="image-box">
+            <img src="./images/choice/filet.jpg"/>
+            </div>
+            <div class="about">
+            <h1 class="title">Apple Juice</h1>
+            <h3 class="subtitle">250ml</h3>
+            </div>
+            <div class="counter"></div>
+            <div class="prices"></div>
+            </div>
+
+    </div>
+</body>
+
 </body>
 </html>

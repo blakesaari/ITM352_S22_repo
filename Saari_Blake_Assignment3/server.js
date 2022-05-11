@@ -36,7 +36,7 @@ app.post("/update_cart", function (request, response) {
     if(typeof request.session.cart == 'undefined') { 
             request.session.cart = {}; 
         } 
-    request.session[prod_key] = request.body.quantities;
+    request.session.cart[prod_key] = request.body.quantities;
     console.log(request.session)
     response.redirect(`./store.html?products_key=${prod_key}`);
 });
@@ -52,16 +52,3 @@ app.listen(8080, () => console.log(`listening on port 8080`));
 
 // Invoice
 
-app.get("/checkout", function (request, response) {
-    var invoice_str = `Thank you for your order!<table border><th>Quantity</th><th>Item</th>`;
-    var shopping_cart = request.session.cart;
-for(prod_key in products_data) {
-    for(i=0; i<products_data[prod_key].length; i++) {
-        if(typeof shopping_cart[prod_key] == 'undefined') continue;
-        qty = shopping_cart[prod_key][i];
-        if(qty > 0) {
-          invoice_str += `<tr><td>${qty}</td><td>${products_data[prod_key][i].name}</td><tr>`;
-        }
-    }
-}
-invoice_str += '</table>';});

@@ -40,7 +40,7 @@
 <body>
         <script> 
             var subtotal = 0;
-            var shopping_cart = request.session.cart;
+            var shopping_cart = cart;
             for(i=0; i<products_data[this_products_key].length; i++) {
                 var extended_price = (products[i].price * quantities[i])
                 subtotal = subtotal + extended_price;
