@@ -13,18 +13,52 @@
         <!-- Open Sans Font -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css">
 
-    <title>Document</title>
+    <title>Shopping Cart</title>
 </head>
 <body>
 
 <script>
+
+    var total = 0;
+
     var cart;
     loadJSON('get_cart', function (response) {
-    cart = JSON.parse(response);
+    shopping_cart = JSON.parse(response);
+    for (pk in shopping_cart) {
+        total += shopping_cart[pk].reduce((a, b) => a + b);
+    }
     });
+
+    var products_data;
+    loadJSON('get_products_data', function(response) {
+         // Parsing JSON string into object
+         products_data = JSON.parse(response);
+    });
+
 </script>
     
+<script>
+ /*
+    for(product_key in products_data) {
 
+    for(i=0; i<products_data[product_key].length; i++) {
+    
+    if(typeof shopping_cart[product_key] == 'undefined') continue;
+    qty = shopping_cart[product_key][i];
+    if(qty > 0) {
+        invoice_str += `<tr><td>${qty}</td><td>${products_data[product_key][i].name}</td><tr>`;
+        }
+    }
+}
+*/
+
+document.write(products_data);
+
+document.write(shopping_cart.choice);
+
+</script>
+
+<!--
 <body>
     <div class="cart">
         
@@ -36,17 +70,41 @@
         <div class="Cart-Items">
             <div class="image-box">
             <img src="./images/choice/filet.jpg"/>
-            </div>
+
+        </div>
             <div class="about">
             <h1 class="title">Apple Juice</h1>
             <h3 class="subtitle">250ml</h3>
+        </div>
+
+            <div class="counter">
+                <div class="btn">-</div>
+                <div class="count">2</div>
+                <div class="btn">+</div>
             </div>
-            <div class="counter"></div>
-            <div class="prices"></div>
+
+            <div class="prices">
+                <div class="amount">$2.99</div>
+                <div class="save"><u>Save for later</u></div>
+                <div class="remove"><u>Remove</u></div>
             </div>
+        </div>
+        
+        <hr> 
+            <div class="checkout">
+            <div class="total">
+        <div>
+            <div class="Subtotal">Sub-Total</div>
+            <div class="items">2 items</div>
+        </div>
+            <div class="total-amount">$6.18</div>
+        </div>
+            <button class="button">Checkout</button>
+        </div>
 
     </div>
 </body>
 
 </body>
 </html>
+-->

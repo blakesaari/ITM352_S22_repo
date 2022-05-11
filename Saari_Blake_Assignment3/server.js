@@ -4,8 +4,6 @@ var app = express();
 var session = require('express-session');
 var products_data = require(__dirname + '/products.json');
 
-console.log(products_data);
-
 app.use(express.urlencoded({ extended: true }));
 app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
 
@@ -30,6 +28,8 @@ app.get("/add_to_cart", function (request, response) {
 });
 */
 
+// --------------------------- Shopping Cart --------------------------------//
+
 app.post("/update_cart", function (request, response) {
     console.log(request.body);
     var prod_key = request.body.products_key;
@@ -45,10 +45,18 @@ app.post("/get_cart", function (request, response) {
     response.json(request.session.cart);
 });
 
+
+// -------------------------------- Log-in --------------------------------- //
+app.post("/login", function(request, response) {
+
+    console.log(request.sessionID)
+    const { username, password } = req.body;
+
+})
+
+
+
+
 app.use(express.static(__dirname + '/public'));
 app.listen(8080, () => console.log(`listening on port 8080`));
-
-
-
-// Invoice
 
