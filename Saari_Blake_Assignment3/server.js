@@ -50,7 +50,7 @@
     
     // Get products data
     app.post("/get_products_data", function (request, response) {
-        response.json(products_data);
+        response.json(product_string);
     });
 
 /*
@@ -100,6 +100,9 @@ app.all('*', function (request, response, next) {
 
 // Listening on port 8080
     app.listen(8080, () => console.log(`listening on port 8080`));
+
+
+
 
 // ------------------------------ Functions ------------------------------- //
 
