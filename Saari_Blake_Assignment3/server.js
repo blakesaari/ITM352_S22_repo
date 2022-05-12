@@ -43,15 +43,27 @@
             var product_string = JSON.parse(product_data_string);
         // If file does not exist, output error to console
         } else {
-            console.log(user_data_file `does not exist!`);
+            console.log(product_data_file `does not exist!`);
         }
-            
-
+        
+        // Initialize quantity data
+        product_string.forEach((item,i)=>{item.quantity_available = product_string[i].quantity_available})
     
-    // Get products data
-    app.post("/get_products_data", function (request, response) {
-        response.json(product_string);
-    });
+        // POST for products data
+        app.post("/get_products_data", function (request, response) {
+            response.json(product_string);
+        });
+
+// ------------------------ Session User Data ----------------------- // 
+    app.post("/pull_userinfo", function (request, response) {
+        var user_info = {};
+            if(typeof request.session.loginID != 'undefined') {
+                user_info.email = request.session.loginID;
+                user_info.fullname = user_string[request.session.loginID].fullname;
+            }
+        console.log(user_info)    
+    })
+
 
 /*
 app.get("/add_to_cart", function (request, response) {
@@ -73,35 +85,51 @@ app.all('*', function (request, response, next) {
 // --------------------------- Shopping Cart --------------------------- //
 
     // Add product to cart in client's session
-    app.post("/update_cart", function (request, response) {
-        console.log(request.body);
-        var prod_key = request.body.products_key;
-        if(typeof request.session.cart == 'undefined') { 
-                request.session.cart = {}; 
-            } 
-        request.session.cart[prod_key] = request.body.quantities;
-        console.log(request.session)
-        response.redirect(`./store.html?products_key=${prod_key}`);
-    });
+        app.post("/update_cart", function (request, response) {
+            console.log(request.body);
+            var prod_key = request.body.products_key;
+            if(typeof request.session.cart == 'undefined') { 
+                    request.session.cart = {}; 
+                } 
+            request.session.cart[prod_key] = request.body.quantities;
+            console.log(request.session)
+            response.redirect(`./store.html?products_key=${prod_key}`);
+        });
 
     // Request cart data from client's session
-    app.post("/get_cart", function (request, response) {
-        response.json(request.session.cart);
-    });
+        app.post("/get_cart", function (request, response) {
+            response.json(request.session.cart);
+        });
 
 
 // -------------------------------- Log-in --------------------------------- //
-    app.post("/login", function(request, response) {
 
-        console.log(request.sessionID)
-        const { username, password } = req.body;
+    // File I/O Exercise 4
+        app.post("/login", function(request, response) {
+        // Print body in console
+            console.log(request.body);
+        // Force submitted email into lowercase
+            let submitted_email = request.body.email_textbox.toLowerCase();
+            // If username exists -> Check if password matches -> Session LoginID becomes email
+                if (typeof user_string[submitted_email] != 'undefined') {
+                    if (user_string[submitted_email].password == request.body.password_textbox) {
+                        request.session.loginID = submitted_email;
+                        response.redirect(`./index.html`)
+                    } else {
+                        response.send(`Password incorrect!`);
+                }}
+                    else {
+                        response.send(`Email is not registered yet!`)
+                    }
+        // Print Session LoginID in console
+            console.log(request.session.loginID)
+        })
 
-    })
+// ----------------------------- Registration ------------------------------ //
 
-// Listening on port 8080
+
+// ------------------------ Listening on Port 8080 ------------------------ //
     app.listen(8080, () => console.log(`listening on port 8080`));
-
-
 
 
 // ------------------------------ Functions ------------------------------- //
