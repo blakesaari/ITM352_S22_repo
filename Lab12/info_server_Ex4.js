@@ -22,8 +22,20 @@ app.all('*', function (request, response, next) {
     next();
 });
 
-// Respond to a POST request
+// Get products data
+var products = require(__dirname + '/product_data.json');
 
+// Keep track of products sold
+products.forEach( (prod,i) => {prod.total_sold = 0});
+
+app.get("/product_data.js", function (request, response, next) {
+   response.type('.js');
+   var products_str = `var products = ${JSON.stringify(products)};`;
+   response.send(products_str);
+});
+
+
+// Respond to a POST request
 app.post("/process_form", function (request, response) {
     function isNonNegInt(q, returnErrors = false) {
         errors = []; // assume no errors at first
@@ -34,10 +46,11 @@ app.post("/process_form", function (request, response) {
         }
         return (returnErrors ? errors : (errors.length == 0));
     }
-    
+    let brand = products[0]['brand'];
+    let brand_price = products[0]['price'];
     var q = request.body['quantity_textbox'];
     if (typeof q != 'undefined') {
-    response.send(`Thank you for purchasing ${q} things!`);
+    response.send(`<h2>Thank you for purchasing ${q} ${brand}. Your total is \$${q * brand_price}!</h2>`);
     } else {
         response.send(`Error: ${q} is not a quantity. Hit the back button to fix.`);
     } 
