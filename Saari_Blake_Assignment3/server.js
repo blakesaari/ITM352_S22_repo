@@ -1,41 +1,54 @@
-// Load Express package
-    var express = require('express');
-    var app = express();
+// --------------------------- Load Packages --------------------------- // 
+    // Load Express Package
+        var express = require('express');
+        var app = express();
 
-// Lead Sessions package
-    var session = require('express-session');
-    app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
+    // Lead Sessions Package
+        var session = require('express-session');
+        app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
 
-// Load Cookies package
-    var cookieParser = require('cookie-parser');
-    app.use(cookieParser());
+    // Load Cookies Package
+        var cookieParser = require('cookie-parser');
+        app.use(cookieParser());
 
-// Initialize Sessions
-    app.use(express.urlencoded({ extended: true }));
+    // Load Page Body
+        app.use(express.urlencoded({ extended: true }));
 
-// Initialize Filesync
-    const fs = require("fs");
+    // Initialize Filesync
+        const fs = require("fs");
 
-    if(fs.existsSync(filename)) {
-        var data_string = fs.readFileSync(filename, 'utf-8');
-        var users_data_string = JSON.parse(data_string);
-    } else {
-        console.log(filename does not exist!);
-    }
-
-// Initialize public directory
+// ------------------- Initialize Public Directory ------------------- // 
     app.use(express.static(__dirname + '/public'));
 
-// Print all requests in console
-    app.all('*', function (request, response, next) {
-        console.log(`Got a ${request.method} to path ${request.path}`);
-        // need to initialize an object to store the cart in the session. We do it when there is any request so that we don't have to check it exists
-        // anytime it's used
-        if(typeof request.session.cart == 'undefined') { request.session.cart = {}; } 
-        next();
-    });
+// -------------------------- Load User Data ------------------------- // 
+    var user_data_file = './public/data/user_data.json'       
 
-// Get products data
+        // Read User Data
+            if (fs.existsSync(user_data_file)) {
+                var user_data_string = fs.readFileSync(user_data_file, 'utf-8');
+                // Parse data and output as string
+                    var user_string = JSON.parse(user_data_string);
+        // If file does not exist, output error to console
+            } else {
+                console.log(user_data_file `does not exist!`);
+            }
+
+// ------------------------ Load Product Data ------------------------ // 
+    var product_data_file = './public/data/products.json'
+            
+        // Read User Data
+        if (fs.existsSync(product_data_file)) {
+            var product_data_string = fs.readFileSync(product_data_file, 'utf-8');
+            // Parse data and output as string
+            var product_string = JSON.parse(product_data_string);
+        // If file does not exist, output error to console
+        } else {
+            console.log(user_data_file `does not exist!`);
+        }
+            
+
+    
+    // Get products data
     app.post("/get_products_data", function (request, response) {
         response.json(products_data);
     });
@@ -49,8 +62,17 @@ app.get("/add_to_cart", function (request, response) {
 });
 */
 
-// --------------------------- Shopping Cart --------------------------------//
+// Print all requests in console
+app.all('*', function (request, response, next) {
+    console.log(`Got a ${request.method} to path ${request.path}`);
+    // Initialize an object to store the cart in the session
+    if(typeof request.session.cart == 'undefined') { request.session.cart = {}; } 
+    next();
+});
 
+// --------------------------- Shopping Cart --------------------------- //
+
+    // Add product to cart in client's session
     app.post("/update_cart", function (request, response) {
         console.log(request.body);
         var prod_key = request.body.products_key;
@@ -62,6 +84,7 @@ app.get("/add_to_cart", function (request, response) {
         response.redirect(`./store.html?products_key=${prod_key}`);
     });
 
+    // Request cart data from client's session
     app.post("/get_cart", function (request, response) {
         response.json(request.session.cart);
     });
@@ -78,3 +101,21 @@ app.get("/add_to_cart", function (request, response) {
 // Listening on port 8080
     app.listen(8080, () => console.log(`listening on port 8080`));
 
+// ------------------------------ Functions ------------------------------- //
+
+    // Determines valid quantity
+        function isNonNegInt(q, return_errors = false) {
+            errors = []; // assume no errors at first
+            if (q == '') q = 0; // handle blank inputs as if they are 0
+            if (Number(q) != q) errors.push('<b><font color="red">Not a number!</font></b>'); // Check if string is a number value
+            if (q < 0) errors.push('<b><font color="red">Negative value!</font></b>'); // Check if it is non-negative
+            if (parseInt(q) != q) errors.push('<b><font color="red">Not an integer!</font></b>'); // Check that it is an integer
+            return return_errors ? errors : (errors.length == 0);
+        };
+    // Determines input in textbox
+        function checkQuantityTextbox(qtyTextbox) {
+            errs = isNonNegInt(qtyTextbox.value, true);
+            if (errs.length == 0) errs = ['Want to purchase: '];
+            if (qtyTextbox.value.trim() == '') errs = ['Type desired quantity: '];
+            document.getElementById(qtyTextbox.name + '_label').innerHTML = errs.join('<font color="red">, </font>');
+        };

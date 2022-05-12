@@ -3,96 +3,114 @@
         {
             "name": "16oz Ribeye",
             "price": 20,
-            "image": "./images/choice/ribeye.jpg"
+            "image": "./images/choice/ribeye.jpg",
+            "quantity_available": 20
         },
         {
             "name": "16oz Tenderloin",
             "price": 25,
-            "image": "./images/choice/filet.jpg"
+            "image": "./images/choice/filet.jpg",
+            "quantity_available": 20
         },
         {
             "name": "16oz Hanger Steak",
             "price": 20,
-            "image": "./images/choice/hanger.jpg"
+            "image": "./images/choice/hanger.jpg",
+            "quantity_available": 20
         },
         {
             "name": "16oz Flank Steak",
             "price": 20,
-            "image": "./images/choice/flank.jpg"
+            "image": "./images/choice/flank.jpg",
+            "quantity_available": 20
         },
         {
             "name": "16oz Short Ribs",
             "price": 25,
-            "image": "./images/choice/shortrib.jpg"
+            "image": "./images/choice/shortrib.jpg",
+            "quantity_available": 20
         },
         {
             "name": "32oz Porterhouse",
             "price": 65,
-            "image": "./images/choice/porterhouse.jpg"
+            "image": "./images/choice/porterhouse.jpg",
+            "quantity_available": 20
         }
     ],
     "prime": [ 
         {
             "name": "16oz Ribeye",
             "price": 25,
-            "image": "./images/prime/ribeye.jpg"
+            "image": "./images/prime/ribeye.jpg",
+            "quantity_available": 20
         },
         {
             "name": "16oz Tenderloin",
             "price": 30,
-            "image": "./images/prime/filet.jpg"
+            "image": "./images/prime/filet.jpg",
+            "quantity_available": 20
         },
         {
             "name": "16oz Hanger Steak",
             "price": 25,
-            "image": "./images/prime/hanger.jpg"
+            "image": "./images/prime/hanger.jpg",
+            "quantity_available": 20
         },
         {
             "name": "16oz Flank Steak",
             "price": 25,
-            "image": "./images/prime/flank.jpg"
+            "image": "./images/prime/flank.jpg",
+            "quantity_available": 20
         },
         {
             "name": "16oz Short Ribs",
             "price": 30,
-            "image": "./images/prime/shortrib.jpg"
+            "image": "./images/prime/shortrib.jpg",
+            "quantity_available": 20
         },
         {
             "name": "32oz Porterhouse",
             "price": 75,
-            "image": "./images/prime/porterhouse.jpg"
+            "image": "./images/prime/porterhouse.jpg",
+            "quantity_available": 20
         }
     ],
     "wagyu": [
         {
             "name": "16oz Ribeye",
             "price": 50,
-            "image": "./images/wagyu/ribeye.jpg"
+            "image": "./images/wagyu/ribeye.jpg",
+            "quantity_available": 20
         },
         {
             "name": "16oz Tenderloin",
             "price": 60,
-            "image": "./images/wagyu/filet.jpg"
+            "image": "./images/wagyu/filet.jpg",
+            "quantity_available": 20
         },
         {
             "name": "16oz Hanger Steak",
             "price": 50,
-            "image": "./images/wagyu/ribeye.jpg"
+            "image": "./images/wagyu/ribeye.jpg",
+            "quantity_available": 20
         },
         {
             "name": "16oz Flank Steak",
             "price": 55,
-            "image": "./images/wagyu/flank.jpg"
+            "image": "./images/wagyu/flank.jpg",
+            "quantity_available": 20
         },
         {
             "name": "16oz Short Ribs",
             "price": 50,
-            "image": "./images/wagyu/shortrib.jpg"
+            "image": "./images/wagyu/shortrib.jpg",
+            "quantity_available": 20
         },
         {
             "name": "32oz Porterhouse",
             "price": 160,
-            "image": "./images/wagyu/porterhouse.jpg"
+            "image": "./images/wagyu/porterhouse.jpg",
+            "quantity_available": 20
         }
     ]
 }
