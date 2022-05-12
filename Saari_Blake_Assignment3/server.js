@@ -1,23 +1,44 @@
-var express = require('express');
-var app = express();
+// Load Express package
+    var express = require('express');
+    var app = express();
 
-var session = require('express-session');
-var products_data = require(__dirname + '/products.json');
+// Lead Sessions package
+    var session = require('express-session');
+    app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
 
-app.use(express.urlencoded({ extended: true }));
-app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
+// Load Cookies package
+    var cookieParser = require('cookie-parser');
+    app.use(cookieParser());
 
-app.all('*', function (request, response, next) {
-    console.log(`Got a ${request.method} to path ${request.path}`);
-    // need to initialize an object to store the cart in the session. We do it when there is any request so that we don't have to check it exists
-    // anytime it's used
-    if(typeof request.session.cart == 'undefined') { request.session.cart = {}; } 
-    next();
-});
+// Initialize Sessions
+    app.use(express.urlencoded({ extended: true }));
 
-app.post("/get_products_data", function (request, response) {
-    response.json(products_data);
-});
+// Initialize Filesync
+    const fs = require("fs");
+
+    if(fs.existsSync(filename)) {
+        var data_string = fs.readFileSync(filename, 'utf-8');
+        var users_data_string = JSON.parse(data_string);
+    } else {
+        console.log(filename does not exist!);
+    }
+
+// Initialize public directory
+    app.use(express.static(__dirname + '/public'));
+
+// Print all requests in console
+    app.all('*', function (request, response, next) {
+        console.log(`Got a ${request.method} to path ${request.path}`);
+        // need to initialize an object to store the cart in the session. We do it when there is any request so that we don't have to check it exists
+        // anytime it's used
+        if(typeof request.session.cart == 'undefined') { request.session.cart = {}; } 
+        next();
+    });
+
+// Get products data
+    app.post("/get_products_data", function (request, response) {
+        response.json(products_data);
+    });
 
 /*
 app.get("/add_to_cart", function (request, response) {
@@ -30,33 +51,30 @@ app.get("/add_to_cart", function (request, response) {
 
 // --------------------------- Shopping Cart --------------------------------//
 
-app.post("/update_cart", function (request, response) {
-    console.log(request.body);
-    var prod_key = request.body.products_key;
-    if(typeof request.session.cart == 'undefined') { 
-            request.session.cart = {}; 
-        } 
-    request.session.cart[prod_key] = request.body.quantities;
-    console.log(request.session)
-    response.redirect(`./store.html?products_key=${prod_key}`);
-});
+    app.post("/update_cart", function (request, response) {
+        console.log(request.body);
+        var prod_key = request.body.products_key;
+        if(typeof request.session.cart == 'undefined') { 
+                request.session.cart = {}; 
+            } 
+        request.session.cart[prod_key] = request.body.quantities;
+        console.log(request.session)
+        response.redirect(`./store.html?products_key=${prod_key}`);
+    });
 
-app.post("/get_cart", function (request, response) {
-    response.json(request.session.cart);
-});
+    app.post("/get_cart", function (request, response) {
+        response.json(request.session.cart);
+    });
 
 
 // -------------------------------- Log-in --------------------------------- //
-app.post("/login", function(request, response) {
+    app.post("/login", function(request, response) {
 
-    console.log(request.sessionID)
-    const { username, password } = req.body;
+        console.log(request.sessionID)
+        const { username, password } = req.body;
 
-})
+    })
 
-
-
-
-app.use(express.static(__dirname + '/public'));
-app.listen(8080, () => console.log(`listening on port 8080`));
+// Listening on port 8080
+    app.listen(8080, () => console.log(`listening on port 8080`));
 
