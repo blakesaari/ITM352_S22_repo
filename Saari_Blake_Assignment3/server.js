@@ -36,7 +36,7 @@
 // ------------------------ Load Product Data ------------------------ // 
     var product_data_file = './public/data/products.json'
             
-        // Read User Data
+        // Read Product Data
         if (fs.existsSync(product_data_file)) {
             var product_data_string = fs.readFileSync(product_data_file, 'utf-8');
             // Parse data and output as string
@@ -159,7 +159,7 @@ app.all('*', function (request, response, next) {
                 registration_errors['email'] = `Please enter a valid email address (E.x. johndoe@gmail.com)`;
             }
             // Validate that the email address has not already been registered
-            if (typeof user_data_string[registration_email] != 'undefined') {
+            if (typeof user_string[registration_email] != 'undefined') {
                 registration_errors['email'] = `The email account entered has already been registered, please try to login.`;
             }
             // Validates that the password entered is at least 8 characters
@@ -183,14 +183,15 @@ app.all('*', function (request, response, next) {
 
             // Reading and writing user info to a JSON (CREDIT: Assignment 2 Code Examples)
             if(Object.keys(registration_errors).length == 0) {
-                user_data_string[registration_email] = {};
-                user_data_string[registration_password] = registration_password;
-                user_data_string[registration_fullname] = registration_fullname;
-                fs.writeFileSync(user_data_file, JSON.stringify(user_data_string));
-                console.log("Saved: " + user_data_string);
+                user_string[registration_email] = {};
+                user_string[registration_email].password = registration_password;
+                user_string[registration_email].fullname = registration_fullname;
+                fs.writeFileSync(user_data_file, JSON.stringify(user_string));
+                console.log("Saved: " + user_string[registration_email]);
                 response.send(`${registration_email} has been registered.`);
             } else {
-                response.redirect("./register");
+                response.redirect("./registration.html");
+                alert(registration_errors);
             }
         });
 
