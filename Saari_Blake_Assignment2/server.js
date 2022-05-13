@@ -158,7 +158,7 @@
         }
         // Validates that there is an email inputted
         else if (register_email.length == 0) {
-            registration_errors['email'] = `Please enter a valid email address (Ex: johndoe@meatlocker.com)`;
+            registration_errors['email'] = `Please enter a valid email address`;
         }
         // Validates that the email inputted has not already been registered
         if (typeof user_str[register_email] != 'undefined') {

@@ -21,7 +21,7 @@
     app.use(express.static(__dirname + '/public'));
 
 // -------------------------- Load User Data ------------------------- // 
-    var user_data_file = './public/data/user_data.json'       
+    var user_data_file = './public/data/user_data.json'      
 
         // Read User Data
             if (fs.existsSync(user_data_file)) {
@@ -140,15 +140,65 @@ app.all('*', function (request, response, next) {
 
 // ----------------------------- Registration ------------------------------ //
         app.post("/registration", function (request, response) {
+            // Start with 0 errors
             var registration_errors = {};
-            var registration_email = request.body['email'].toLowerCase()
+            // Import email address from submitted page
+            var registration_email = request.body['email'].toLowerCase();
+            // Import password from submitted page
+            var registration_password = request.body['password'];
+            // Import repeat password from submitted page
+            var registration_repeat_password = request.body['repeat_password'];
+            // Import full name from submitted page
+            var registration_fullname = request.body['fullname'];
+            // Validate that there is an input in the email address field
+            if (registration_email.length == 0) {
+                registration_errors['email'] = `Please enter an email address!`;
+            }
+            // Validate email address is in correct format (CREDIT: W3Resource - Email Validation)
+            else if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(request.body.email) == false) {
+                registration_errors['email'] = `Please enter a valid email address (E.x. johndoe@gmail.com)`;
+            }
+            // Validate that the email address has not already been registered
+            if (typeof user_data_string[registration_email] != 'undefined') {
+                registration_errors['email'] = `The email account entered has already been registered, please try to login.`;
+            }
+            // Validates that the password entered is at least 8 characters
+            if (registration_password == 0) {
+                registration_errors['password'] = `Please enter a password`;
+            }
+            else if (registration_password < 8) {
+                registration_errors['password'] = `Your password must be at least 8 characters`;
+            }
+            // Validates that password and repeat password match
+            if (registration_password != registration_repeat_password) {
+                registration_errors['repeat_password'] = `The passwords you entered do not match, please try again`
+            }
+            // Validates that the full name consists of a-z and A-Z characters exclusively 
+            if (/^[A-Za-z, ]+$/.test(registration_fullname)) {
+             } else { registration_errors['fullname'] = `Please enter your first and last name`;
+            }
+            if (registration_fullname > 30) {
+                registration_errors['fullname'] = `Please enter a name less than 30 characters`
+            } 
+
+            // Reading and writing user info to a JSON (CREDIT: Assignment 2 Code Examples)
+            if(Object.keys(registration_errors).length == 0) {
+                user_data_string[registration_email] = {};
+                user_data_string[registration_password] = registration_password;
+                user_data_string[registration_fullname] = registration_fullname;
+                fs.writeFileSync(user_data_file, JSON.stringify(user_data_string));
+                console.log("Saved: " + user_data_string);
+                response.send(`${registration_email} has been registered.`);
+            } else {
+                response.redirect("./register");
+            }
         });
 
 // ----------------------------- Purchase ------------------------------ //
         app.post("/submit_order", function (request, response) {
             // Still need to  remove quantities from quantities available
-            request.session.destroy()
-            response.redirect("./index.html")
+            request.session.destroy();
+            response.redirect("./index.html");
         })
 
 // ------------------------ Listening on Port 8080 ------------------------ //
