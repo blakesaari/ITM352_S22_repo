@@ -21,8 +21,21 @@
                 cart = JSON.parse(response);
             });
 
+            var user_data;
+            loadJSON('get_user_data', function(response) {
+                // Parsing JSON string into object
+                user_data = JSON.parse(response);
+            });
+
     </script>
 </head>
+<body>
+
+    <center>
+        <script>
+            document.write(`You are currently logged in as ${user_data}`)
+        </script>
+    </center>
 <center>
     <script> nav_bar(this_products_key, products_data);</script>
 </center>
@@ -60,3 +73,8 @@
     document.write(order_str);
 </script>
 
+<form name = "go_to_cart" action = "/cart.html" method="GET">
+    <button type="go_to_cart" value="go_to_cart" name="go_to_cart">Cart</button>
+</form>
+
+</body>

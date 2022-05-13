@@ -47,7 +47,7 @@
         }
         
         // Initialize quantity data
-        product_string.forEach((item,i)=>{item.quantity_available = product_string[i].quantity_available})
+        Array.from(product_string).forEach((name,i)=>{name.quantity_available = product_string[i].quantity_available})
     
         // POST for products data
         app.post("/get_products_data", function (request, response) {
@@ -59,7 +59,7 @@
         var user_info = {};
             if(typeof request.session.loginID != 'undefined') {
                 user_info.email = request.session.loginID;
-                user_info.fullname = user_string[request.session.loginID].fullname;
+                user_info.name = user_string[request.session.loginID].name;
             }
         console.log(user_info)    
     })
@@ -100,7 +100,7 @@ app.all('*', function (request, response, next) {
         app.post("/get_cart", function (request, response) {
             response.json(request.session.cart);
         });
-
+        
 
 // -------------------------------- Log-in --------------------------------- //
 
@@ -109,10 +109,10 @@ app.all('*', function (request, response, next) {
         // Print body in console
             console.log(request.body);
         // Force submitted email into lowercase
-            let submitted_email = request.body.email_textbox.toLowerCase();
+            let submitted_email = request.body.email.toLowerCase();
             // If username exists -> Check if password matches -> Session LoginID becomes email
                 if (typeof user_string[submitted_email] != 'undefined') {
-                    if (user_string[submitted_email].password == request.body.password_textbox) {
+                    if (user_string[submitted_email].password == request.body.password) {
                         request.session.loginID = submitted_email;
                         response.redirect(`./index.html`)
                     } else {
@@ -123,10 +123,25 @@ app.all('*', function (request, response, next) {
                     }
         // Print Session LoginID in console
             console.log(request.session.loginID)
-        })
+            });
+
+            // Request user data from client's session
+                app.post("/get_user_data", function (request, response) {
+                    response.json(request.session.loginID);
+                });
 
 // ----------------------------- Registration ------------------------------ //
+        app.post("/registration", function (request, response) {
+            var registration_errors = {};
+            var registration_email = request.body['email'].toLowerCase()
+        });
 
+// ----------------------------- Purchase ------------------------------ //
+        app.post("/submit_order", function (request, response) {
+            // Still need to  remove quantities from quantities available
+            request.session.destroy()
+            response.redirect("./index.html")
+        })
 
 // ------------------------ Listening on Port 8080 ------------------------ //
     app.listen(8080, () => console.log(`listening on port 8080`));

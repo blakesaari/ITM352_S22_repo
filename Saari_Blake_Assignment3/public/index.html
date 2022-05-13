@@ -1,15 +1,33 @@
 <head>
     <script src="./functions.js"></script> 
     <script>
-    var products_data;
+   
+   var products_data;
     loadJSON('get_products_data', function(response) {
          // Parsing JSON string into object
          products_data = JSON.parse(response);
     });
+
+    var user_data;
+    loadJSON('get_user_data', function(response) {
+         // Parsing JSON string into object
+         user_data = JSON.parse(response);
+    });
+
     var products_key = ''
     </script>
     </head>
     <body>
+
+        <form name = "login" action = "login.html" method="GET">
+            <button type="login" value="login" name="login">Log-in</button>
+        </form>
+
+        <script>
+            document.write(`You are currently logged in as ${user_data}`)
+        </script>
+        <Br>
+
         Go to: <br>
     <script> nav_bar(products_key, products_data);</script>
     </body>

@@ -1,5 +1,5 @@
 { 
-    "choice":[ 
+    "USDA Choice":[ 
         {
             "name": "16oz Ribeye",
             "price": 20,
@@ -37,7 +37,7 @@
             "quantity_available": 20
         }
     ],
-    "prime": [ 
+    "USDA Prime": [ 
         {
             "name": "16oz Ribeye",
             "price": 25,
@@ -75,7 +75,7 @@
             "quantity_available": 20
         }
     ],
-    "wagyu": [
+    "Wagyu": [
         {
             "name": "16oz Ribeye",
             "price": 50,
@@ -91,7 +91,7 @@
         {
             "name": "16oz Hanger Steak",
             "price": 50,
-            "image": "./images/wagyu/ribeye.jpg",
+            "image": "./images/wagyu/hanger.jpg",
             "quantity_available": 20
         },
         {
