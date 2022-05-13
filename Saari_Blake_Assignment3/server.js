@@ -130,6 +130,14 @@ app.all('*', function (request, response, next) {
                     response.json(request.session.loginID);
                 });
 
+// -------------------------------- Log-out --------------------------------- //
+        app.get("/log_out",(request, response)=>{
+            if (request.session.loginID) {
+                delete request.session.loginID;
+            }
+            response.redirect("/index.html");
+            });
+
 // ----------------------------- Registration ------------------------------ //
         app.post("/registration", function (request, response) {
             var registration_errors = {};

@@ -19,14 +19,31 @@
     </head>
     <body>
 
+        <script>
+
+        if(user_data != undefined) {
+            document.write(`
+            <form name = "log_out" action = "/log_out" method="GET">
+                <button type="log_out" value="log_out" name="log_out">Log-out</button>
+            </form>`)
+        } else {
+            document.write(`
         <form name = "login" action = "login.html" method="GET">
             <button type="login" value="login" name="login">Log-in</button>
-        </form>
+        </form>`)
+        }
+
+        </script>
 
         <script>
+            if (user_data != undefined) {
             document.write(`You are currently logged in as ${user_data}`)
+            } else {
+                document.write(`You are not logged in.`)
+            }
         </script>
         <Br>
+            <br>
 
         Go to: <br>
     <script> nav_bar(products_key, products_data);</script>
