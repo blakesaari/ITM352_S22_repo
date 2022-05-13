@@ -190,8 +190,7 @@ app.all('*', function (request, response, next) {
                 console.log("Saved: " + user_string[registration_email]);
                 response.send(`${registration_email} has been registered.`);
             } else {
-                response.redirect("./registration.html");
-                alert(registration_errors);
+                response.send(registration_errors);
             }
         });
 
@@ -201,6 +200,12 @@ app.all('*', function (request, response, next) {
             request.session.destroy();
             response.redirect("./index.html");
         })
+
+// ------------------------------ Review ------------------------------- //
+    app.post("/submit_review", function (request, response, next) {
+        console.log(request.body);
+        var products_index = Number(request.body.product)
+    })
 
 // ------------------------ Listening on Port 8080 ------------------------ //
     app.listen(8080, () => console.log(`listening on port 8080`));
