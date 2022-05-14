@@ -31,7 +31,7 @@ const res = require('express/lib/response');
 
         // Read User Data
             if (fs.existsSync(user_data_file)) {
-                var user_data_string = fs.readFileSync(user_data_file, 'utf-8');
+                    var user_data_string = fs.readFileSync(user_data_file, 'utf-8');
                 // Parse data and output as string
                     var user_string = JSON.parse(user_data_string);
         // If file does not exist, output error to console
@@ -93,7 +93,7 @@ app.all('*', function (request, response, next) {
     // Add product to cart in client's session
         app.post("/update_cart", function (request, response) {
             console.log(request.body);
-            var prod_key = request.body.products_key;
+            var prod_key = request.body.products_key[1];
             if(typeof request.session.cart == 'undefined') { 
                     request.session.cart = {}; 
                 } 
@@ -107,17 +107,35 @@ app.all('*', function (request, response, next) {
             response.json(request.session.cart);
         });
 
+    // Go to cart
+        app.post("/go_to_cart", function (request, response) {
+            if (request.session.cart != null) {
+                response.redirect('./cart.html');
+            }
+            else {
+                console.log(request.session.cart);
+                var prod_key = request.body.products_key;
+                response.write('You have no items in your cart!');
+                response.redirect(`./store.html?products_key=${prod_key}`);
+            }
+        })
+
     // Delete entire cart
         app.post("/delete_entire_cart", function (request, response) {
-            delete request.session.cart;
+            request.session.cart = 0;
             console.log(request.session.cart);
+            response.redirect('./index.html')
         })
 
     // Delete item within cart
         app.post("/delete_in_cart", function(request, response) {
             console.log('delete_in_cart', request.body);
-            request.session.cart[request.body.pkey][request.body.pindex] = 0;
-            response.redirect('back')
+            request.session.cart[request.body.pkey][request.body.pindex] = '';
+            console.log(request.session.cart);
+            //if (request.session.cart = '') {
+            //    response.redirect('./index.html');
+            //}
+            response.redirect('back');
         })
         
 
@@ -222,10 +240,6 @@ app.all('*', function (request, response, next) {
             // Still need to  remove quantities from quantities available
             var quantities = request.session.cart;
             console.log(quantities);
-                for (i in quantities) {
-                    product_string.quantity_available -= Number(quantities[i])
-                    console.log(quantity_available);
-                        }
                 
             request.session.destroy();
             response.redirect("./index.html");

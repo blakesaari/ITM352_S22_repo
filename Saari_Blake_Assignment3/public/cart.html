@@ -41,14 +41,14 @@
 
 </script>
 
-<script>
-    document.write(`You are currently logged in as ${user_data}`)
-</script>
 
 <div class="CartContainer">
         
     <div class="Header">
         <h3 class="Heading">Shopping Cart</h3>
+        <h4 class ="User"><script>
+            document.write(`You are logged in as ${user_data}`)
+        </script></h4> 
         <form name = "remove_all" action = "/delete_entire_cart" method = "POST">
             <h5 class="Action">
                 <button type="submit" class="removecart" value="delete_entire_cart">Remove all</button>
@@ -125,7 +125,6 @@ for(let products_key in shopping_cart) {
         <div class="total">
             <div>
                 <div class="Subtotal">Sub-Total</div>
-                <div class="items">2 items</div>
             </div>
             <div class="total-amount">$${subtotal}</div>
         </div>
@@ -134,6 +133,7 @@ for(let products_key in shopping_cart) {
 <form name = "invoice" action = "/invoice.html" method="GET">
 <button type="submit" class="checkoutbutton">Check-out</button>
 </form>
+<br>
 </div>
 </div>
 <script>

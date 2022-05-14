@@ -1,17 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Meat Locker</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+        <!-- Load in Cascading Style Sheets -->
+          <link rel="stylesheet" href="/stylesheets/index-style.css">
+
+        <!-- Load Favicon-->
+          <link rel="shortcut icon" href="./images/favicon.ico">
+    
+        <!-- Load Scripts-->
+        <script src="./functions.js"></script> 
 
         <!-- Page Formatting-->
-        <link rel="stylesheet" href="./css/register-style.css">
+        <link rel="stylesheet" href="./stylesheets/register-style.css">
+
+        <script>
+            var products_data;
+            loadJSON('get_products_data', function(response) {
+                // Parsing JSON string into object
+                products_data = JSON.parse(response);
+            });
+    
+            var user_data;
+            loadJSON('get_user_data', function(response) {
+                // Parsing JSON string into object
+                user_data = JSON.parse(response);
+            });
+    
+            var products_key = '';
+        </script>
+        
 </head>
 <body>
-    
 
+    <!-- Page Header-->
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1>THE MEAT LOCKER</h1>      
+            <p><strong>High Quality U.S.D.A. Prime Beef</strong></p>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                        
+                </button>
+                <a class="navbar-brand" href="./index.html">Meat Locker</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                <li class="active"><a href="./index.html">Home</a></li>
+                <script> nav_bar(products_key, products_data);</script>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <script>
+                        if (user_data != undefined) {
+                            document.write(`<li><a href="./update_registration.html"><span class="glyphicon glyphicon-user"></span> Your Account</a></li>`);
+                        } else {
+                            document.write(`<li><a href="./login.html"><span class="glyphicon glyphicon-user"></span>Login</a></li> <li><a href="./registration.html"><span class="glyphicon glyphicon-user"></span>Register</a></li>`);
+                        };
+                    </script>
+                </ul>
+            </div>
+            </div>
+        </nav>
+    <br>
+    <br>
     <form name='register' action="/registration" method="POST">
         <ul id = 'register_form'>
             <li><label for="email">Email:</label></li>
@@ -24,7 +89,7 @@
             <li><input type="password" name="repeat_password" size="50" /></li>
             <br>
             <div class = "button">
-            <li><input type="submit" name="submit" value="Submit" action="/registration" method="POST"></li>
+            <li><input type="submit" class="button" name="submit" value="Register" action="/registration" method="POST"></li>
             </div>
         </ul>
     </form>

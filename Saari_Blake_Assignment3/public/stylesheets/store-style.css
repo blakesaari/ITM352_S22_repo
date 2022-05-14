@@ -21,3 +21,82 @@
 .stars::after{
     content: counter(rateme) '/5';
 }
+
+td {
+    text-align: center;
+}
+
+
+
+/* Images */
+.img-responsive{
+    width: 300px;
+    height: 300px;
+    height: auto;
+
+    /* Padding */
+
+    padding: 10px;
+    
+    /* Rounded Edges */
+    border-radius: 5px;
+}
+
+/* Button */
+
+.button {
+    background-color: #337ab7;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border-radius: 0;
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+}
+
+/* Body */
+
+body {
+    text-align: center;
+    font-weight: 400;
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+}
+
+/* Block Styling */
+
+body>div {
+    border: 5px;
+    box-shadow: black;
+    display: flex;
+    justify-content: center;
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+}
+
+
+/* Remove the navbar's default rounded borders and increase the bottom margin */ 
+.navbar {
+margin-bottom: 50px;
+border-radius: 0;
+font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+}
+
+/* Remove the jumbotron's default bottom margin */ 
+.jumbotron {
+margin-bottom: 0;
+}
+            
+/* Add a gray background color and some padding to the footer */
+footer {
+background-color: #f2f2f2;
+padding: 1px;
+font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+}
+
+div {
+padding: 10px;
+font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+}

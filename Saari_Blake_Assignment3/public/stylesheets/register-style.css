@@ -1,0 +1,29 @@
+li {
+    list-style-type: none;
+    margin: 0;
+    padding: 1px;
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+    ;
+  }
+  
+ul {
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+    display: table;
+    margin: 0 auto;
+    
+
+}
+.button {
+    background-color: #337ab7;
+    border: none;
+    color: white;
+    padding: 5px 25px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border-radius: 0;
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+
+
+}

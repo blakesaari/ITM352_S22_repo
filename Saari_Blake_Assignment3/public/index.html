@@ -1,26 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Created by: Blake Saari -->
+<!-- Homepage Content (./index) -->
+<!-- Utilizing Web3/Bootstrap/OnlineStore Template -->
+<!-- This page serves as a homepage to enter the store -->
+
 <head>
+    
+    <title>Meat Locker</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+        <!-- Load in Cascading Style Sheets -->
+          <link rel="stylesheet" href="/stylesheets/index-style.css">
+
+        <!-- Load Favicon-->
+          <link rel="shortcut icon" href="./images/favicon.ico">
+    
     <script src="./functions.js"></script> 
+    
     <script>
-   
-   var products_data;
-    loadJSON('get_products_data', function(response) {
-         // Parsing JSON string into object
-         products_data = JSON.parse(response);
-    });
+        var products_data;
+        loadJSON('get_products_data', function(response) {
+            // Parsing JSON string into object
+            products_data = JSON.parse(response);
+        });
 
-    var user_data;
-    loadJSON('get_user_data', function(response) {
-         // Parsing JSON string into object
-         user_data = JSON.parse(response);
-    });
+        var user_data;
+        loadJSON('get_user_data', function(response) {
+            // Parsing JSON string into object
+            user_data = JSON.parse(response);
+        });
 
-    var products_key = ''
+        var products_key = '';
     </script>
-    </head>
+    
+</head>
+
     <body>
 
         <script>
-
+        /*
         if(user_data != undefined) {
             document.write(`
             <form name = "log_out" action = "/log_out" method="GET">
@@ -33,19 +57,55 @@
         </form>`)
         }
 
-        </script>
-
-        <script>
-            if (user_data != undefined) {
+           if (user_data != undefined) {
             document.write(`You are currently logged in as ${user_data}`)
             } else {
                 document.write(`You are not logged in.`)
-            }
+            }*/
         </script>
-        <Br>
-            <br>
 
-        Go to: <br>
-    <script> nav_bar(products_key, products_data);</script>
+    <!-- Page Header-->
+        <div class="jumbotron">
+            <div class="container text-center">
+                <h1>THE MEAT LOCKER</h1>      
+                <p><strong>High Quality U.S.D.A. Prime Beef</strong></p>
+            </div>
+        </div>
+
+    <!-- Navigation Bar -->
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                        
+                </button>
+                <a class="navbar-brand" href="./index.html">Meat Locker</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                <li class="active"><a href="./index.html">Home</a></li>
+                <script> nav_bar(products_key, products_data);</script>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <script>
+                        if (user_data != undefined) {
+                            document.write(`<li><a href="./update_registration.html"><span class="glyphicon glyphicon-user"></span> Your Account</a></li>`);
+                        } else {
+                            document.write(`<li><a href="./login.html"><span class="glyphicon glyphicon-user"></span>Login</a></li> <li><a href="./registration.html"><span class="glyphicon glyphicon-user"></span>Register</a></li>`);
+                        };
+                    </script>
+                </ul>
+            </div>
+            </div>
+        </nav>
+        <br>
+        <br>
+        <center>
+        <h2>Click on one of the categories in the navigation ribbon to begin shopping!</h2>
+        </center>
+
+
     </body>
-</html>
+    </html>

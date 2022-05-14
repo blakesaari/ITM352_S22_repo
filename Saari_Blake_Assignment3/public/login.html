@@ -16,13 +16,80 @@
 
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Meat Locker</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+        <!-- Load in Cascading Style Sheets -->
+          <link rel="stylesheet" href="/stylesheets/index-style.css">
+          <link rel="stylesheet" href="/stylesheets/login-style.css"
+
+        <!-- Load Favicon-->
+          <link rel="shortcut icon" href="./images/favicon.ico">
+    
+    <script src="./functions.js"></script> 
+    
+    <script>
+        var products_data;
+        loadJSON('get_products_data', function(response) {
+            // Parsing JSON string into object
+            products_data = JSON.parse(response);
+        });
+
+        var user_data;
+        loadJSON('get_user_data', function(response) {
+            // Parsing JSON string into object
+            user_data = JSON.parse(response);
+        });
+
+        var products_key = '';
+    </script>
 </head>
 
 <body>
+
+    <!-- Page Header-->
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1>THE MEAT LOCKER</h1>      
+            <p><strong>High Quality U.S.D.A. Prime Beef</strong></p>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                        
+                </button>
+                <a class="navbar-brand" href="./index.html">Meat Locker</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                <li class="active"><a href="./index.html">Home</a></li>
+                <script> nav_bar(products_key, products_data);</script>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <script>
+                        if (user_data != undefined) {
+                            document.write(`<li><a href="./update_registration.html"><span class="glyphicon glyphicon-user"></span> Your Account</a></li>`);
+                        } else {
+                            document.write(`<li><a href="./login.html"><span class="glyphicon glyphicon-user"></span>Login</a></li> <li><a href="./registration.html"><span class="glyphicon glyphicon-user"></span>Register</a></li>`);
+                        };
+                    </script>
+                </ul>
+            </div>
+            </div>
+        </nav>
     
     <form name = "login" action = "/login" method="POST">
+        <center>
         <div class = "container">
             <h1>Login</h1>
             <p>Please login or sign-up to get to your product invoice and complete your purchase.</p>
@@ -38,13 +105,15 @@
             <hr>
 
             <button type="submit" value="login" name="login">Log-in</button>
-
+            
+            <p class="mb-0">Don't have an account yet? <a href="registration.html" class="text-white-50 fw-bold">Sign Up</a>
+            
         </div>
+    </center>
 
     </form>
 
 
-    <p class="mb-0">Don't have an account yet? <a href="registration.html" class="text-white-50 fw-bold">Sign Up</a>
 
 
 

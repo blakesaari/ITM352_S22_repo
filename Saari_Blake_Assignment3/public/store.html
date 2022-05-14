@@ -1,5 +1,20 @@
+<!DOCTYPE html>
+<html>
 <head>
+    <title>Meat Locker</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
     <script src="./functions.js"></script>
+
+    <!-- Load Stylesheets -->
+    <link rel="stylesheet" href="stylesheets/store-style.css">
+    <link rel="stylesheet" href="/stylesheets/index-style.css">
+
+
     <script>
 
         // get the query string
@@ -11,7 +26,7 @@
                 document.stop;
             }
 
-        var products_data;
+            var products_data;
             loadJSON('get_products_data', function (response) {
                 // Parsing JSON string into object
                 products_data = JSON.parse(response);
@@ -31,50 +46,90 @@
 </head>
 <body>
 
-    <center>
-        <script>
-            document.write(`You are currently logged in as ${user_data}`)
-        </script>
-    </center>
-<center>
-    <script> nav_bar(this_products_key, products_data);</script>
-</center>
+    <!-- Page Header-->
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1>THE MEAT LOCKER</h1>      
+            <p><strong>High Quality U.S.D.A. Prime Beef</strong></p>
+        </div>
+    </div>
 
-<script>
+<!-- Navigation Bar -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>                        
+            </button>
+            <a class="navbar-brand" href="./index.html">Meat Locker</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+            <li class="active"><a href="./index.html">Home</a></li>
+            <script> nav_bar(this_products_key, products_data);</script>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <script>
+                    if (user_data != undefined) {
+                        document.write(`<li><a href="./update_registration.html"><span class="glyphicon glyphicon-user"></span> Your Account</a></li>`);
+                    } else {
+                        document.write(`<li><a href="./login.html"><span class="glyphicon glyphicon-user"></span>Login</a></li> <li><a href="./registration.html"><span class="glyphicon glyphicon-user"></span>Register</a></li>`);
+                    };
+                </script>
+            </ul>
+        </div>
+        </div>
+    </nav>
 
-    // This function takes a string assumed to be a key in the products array above to display and select the corresponding products
-    var order_str = '';
-    // get the particular products to display
-    products = products_data[this_products_key];
-    if (params.has('Submit')) {
-        // grab the quantities from the query string
-        order_str = 'Your order is:<br>';
-        for (i = 0; i < products.length; i++) {
-            order_str += `You want ${params.get(`quantities[${i}]`)} of ${products[i]['name']}<br>`;
-        }
-    } else {
-        order_str += `<h1>Please select what ${this_products_key} steaks you would like to purchase</h1><br>`;
-        // We put the whole table in the form so that anything entered in it will get submitted
-        order_str += `
-            <FORM action="/update_cart" method="POST">
-            <INPUT TYPE="HIDDEN" NAME="products_key" VALUE="${this_products_key}">
-                <TABLE BORDER>
-                    <TR><TD><B><BIG>Description</TD><TD><B><BIG>Price</TD><TD><B><BIG>Quantity Available</TD><TD><B><BIG>Quantity Desired</TD></TR>`;
-
-        for (i = 0; i < products.length; i++) {
-            var qty = 0;
-            order_str += `<TR><TD>${products[i]['name']}</TD><TD>${products[i]['price']}</TD><TD>${products[i]['quantity_available']}</TD><TD>
-                <INPUT TYPE="TEXT"  name="quantities[${i}] value ="${qty}"></TD></TR>`;
-        }
-        order_str += `</TABLE><br>
-<INPUT TYPE="SUBMIT"  name="submit" value="Add to Cart">
-</FORM>`;
-    } // this closes the else for the form and table display
-    document.write(order_str);
-</script>
-
+<br>
+<br>
 <form name = "go_to_cart" action = "/cart.html" method="GET">
-    <button type="go_to_cart" value="go_to_cart" name="go_to_cart">Cart</button>
+    <button class="button" type="go_to_cart" value="go_to_cart" name="go_to_cart">Go to Cart</button>
 </form>
 
+
+<!-- Purchase -->
+
+<br>
+<form action="./update_cart" method="POST">
+
+    <br></br>
+
+<div class = "container">
+<div class = "row">
+
+<script>
+    var order_str = '';
+    // get the particular products to display
+        products = products_data[this_products_key];
+        for (i = 0; i < products.length; i++) {
+            order_str = `
+                <INPUT TYPE="HIDDEN" NAME="products_key" VALUE="${this_products_key}">
+                <div class="col-sm-4">
+                <div class="panel panel-primary">
+                <div class="panel-heading">${products[i].name}</div>    
+                <div class="panel-body"> <img src="${products[i].image}" class="img-responsive" style="width:350px" alt="Image"></div>
+                <label id = "quantity${i}_label"> Enter Quantity Desired: </label>
+                
+                <input type = "text" placeholder = "Quantity Available: ${products[i].quantity_available}" name="quantities[${i}]"  onekeyup="checkQuantityTextbox(this);">
+
+                </div>
+                </div>
+            `
+
+            document.write(order_str);
+
+        }
+</script>
+
+</div>
+</div>
+<input type="submit" class="button" value="Add to Cart" name="add_to_cart" onclick="">
+</form>
+
+
 </body>
+
+</html>

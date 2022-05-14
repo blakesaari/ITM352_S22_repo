@@ -44,6 +44,12 @@ hr {
     border-top: 1px solid rgba(0,0,0,.1);
 }
 
+td {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .text-grey-m2 {
     color: #888a8d!important;
 }
@@ -120,6 +126,29 @@ hr {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+}
+
+.rate_widget {
+    border:     1px solid #CCC;
+    overflow:   visible;
+    padding:    10px;
+    position:   relative;
+    width:      180px;
+    height:     32px;
+}
+.empty_star {
+    background: url('../images/empty_star.png') no-repeat;
+    float:      left;
+    height:     28px;
+    padding:    0px;
+    width:      32px;
+}
+.full_star {
+    background: url('../images/full_star.png') no-repeat;
+    float:      left;
+    height:     28px;
+    padding:    0px;
+    width:      32px;
 }
 
 

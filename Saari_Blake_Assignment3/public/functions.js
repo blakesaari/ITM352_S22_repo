@@ -17,7 +17,7 @@ function nav_bar(this_products_key, products_data) {
     // This makes a navigation bar to other product pages
     for (let products_key in products_data) {
         if (products_key == this_products_key) continue;
-        document.write(`<a href='./store.html?products_key=${products_key}'>${products_key}<a>&nbsp&nbsp&nbsp;`);
+        document.write(`<li><a href='./store.html?products_key=${products_key}'>${products_key}<a>&nbsp&nbsp&nbsp;</li>`);
     }
 }
 

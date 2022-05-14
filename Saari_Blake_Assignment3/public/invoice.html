@@ -8,12 +8,36 @@
 
         <!-- Page Formatting-->
         <link
-        rel="stylesheet" href="./css/invoice-style.css">
+        rel="stylesheet" href="./stylesheets/invoice-style.css">
 
         <!-- Load Functions -->
         <script src="./functions.js"></script>
 
         <script>
+
+            // Rating Function (Professor Port's Example)
+            function star_rate(rate) {
+                            // Based on the value, mark stars checked
+                            btn = document.getElementById("star_" + rate);
+                            console.log(document.getElementById("star_"+ rate));
+                            btn.checked = true;
+                            // Display correct rate stars
+                            star = document.getElementById("star_" + rate).className;
+                            console.log(star)
+
+                            if (star == "empty_star") {
+                                for (i = rate; i > 0; i--) {
+                                    console.log(rate);
+                                    document.getElementById("star" + i).className = "full_star";
+                                }
+                            }
+                            else if (star == "full_star") {
+                                for (i = rate; i < 5; i++) {
+                                    console.log(rate)
+                                    document.getElementById("star" + (i+1)).className = "empty_star";
+                                }
+                            }
+                        }
 
             var total = 0;
 
@@ -46,7 +70,7 @@
                         <th>Quantity</th>
                         <th width="80">Unit Price</th>
                         <th width="140">Amount</th>
-                        <th width="500">Review</th>
+                        <th width="160">Review</th>
                     </tr>
                 </thead>
 
@@ -79,14 +103,17 @@
                     }
 
                     function rate(products_key, i) 
-                    {                   
+                    {        
+                        var str = '';           
                         for (let i = 1; i <= 5; i++) 
                         {
-                        document.write(`
+                        str +=`
                             <div class="empty_star" onClick="star_rate(${i})" id="star${i}"></div>
                             <input type="radio" name="star" id="star_${i}" value="${i}" style="display:none">
-                        `)}
-                    };
+                        `;
+                    }
+                    return str;
+                    }
 
                 </script>
 

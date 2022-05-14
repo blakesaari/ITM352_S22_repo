@@ -65,6 +65,13 @@ body{
 	font-weight: 800;
 	color: #202020;
 }
+.User{
+	line-height: 10px;
+	font-size: 18px;
+	font-family: 'Open Sans';
+	font-weight: 600;
+	color: #909090;
+}
 .subtitle{
 	line-height: 10px;
 	font-size: 18px;
