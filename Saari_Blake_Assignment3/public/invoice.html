@@ -16,28 +16,26 @@
         <script>
 
             // Rating Function (Professor Port's Example)
-            function star_rate(rate) {
-                            // Based on the value, mark stars checked
-                            btn = document.getElementById("star_" + rate);
-                            console.log(btn);
-                            btn.checked = true;
-                            // Display correct rate stars
-                            star = document.getElementById("star_" + rate).className;
-                            console.log(star)
+            function Star_rate(rate) {
+                //As per the value of rate parameter, mark respective radio button as “checked”
+                    btn = document.getElementById("star_" + rate);
+                    btn.checked = true;
+                //display correct rate stars images
+                    var star = document.getElementById("star" + rate).className;
 
-                            if (star == "empty_star") {
-                                for (i = rate; i > 0; i--) {
-                                    console.log(rate);
-                                    document.getElementById("star" + i).className = "full_star";
-                                }
-                            }
-                            else if (star == "full_star") {
-                                for (i = rate; i < 5; i++) {
-                                    console.log(rate)
-                                    document.getElementById("star" + (i+1)).className = "empty_star";
-                                }
-                            }
-                        }
+                if (star == "empty_star")   //if an empty star is clicked, rating is done till that star
+                {
+                    for (i = rate; i > 0; i--) {
+                        document.getElementById("star" + i).className = "full_star";
+                    }
+                }
+                else if (star == "full_star") //if a full star is clicked, rating is reduced to that star
+                {
+                    for (i = rate; i < 5; i++) {
+                        document.getElementById("star" + (i + 1)).className = "empty_star";
+                    }
+                }
+                };
 
             var total = 0;
 
@@ -144,7 +142,7 @@ var total = (subtotal + shipping + tax)
 document.write(`    
 
             <div class="col-12 col-sm-10 text-grey text-90 order-first order-sm-last">
-                <div class="row my-2">
+                <div class="row-my-2">
                     <div class="col-7 text-right">
                         Subtotal
                     </div>
@@ -155,7 +153,7 @@ document.write(`
                     </div>
                 </div>
 
-                <div class="row my-2">
+                <div class="row-my-2">
                     <div class="col-7 text-right">
                         Tax (4.5%)
                     </div>
@@ -166,7 +164,7 @@ document.write(`
                     </div>
                 </div>
 
-                <div class="row my-2">
+                <div class="row-my-2">
                     <div class="col-7 text-right">
                     Shipping
                     </div>
@@ -177,7 +175,7 @@ document.write(`
                     </div>
                 </div>
 
-                <div class="row my-2 align-items-center bgc-primary-l3 p-2">
+                <div class="row-my-2 align-items-center bgc-primary-l3 p-2">
                     <div class="col-7 text-right">
                         Total Amount
                     </div>
@@ -189,9 +187,9 @@ document.write(`
                 </div>
             </div>
         `)</script><hr/></div></div></div></div></div>
-        
-<form name="submit_order" action="/submit_order" method="POST"><button type="submit_order">Submit Order</button></form>
-
+<center>
+<form name="submit_order" action="/submit_order" method="POST"><button class="button" type="submit_order">Submit Order</button></form>
+</center>
 <table class="policy"><tr><td colspan="4"><strong><br>THE MEAT LOCKER SHIPPING POLICY:</br><br>A subtotal $0 - $250 will be charged $15 for shipping.<br>A subtotal $250 - $500 will be charged $25 for shipping.<br>A subtotal over $500 will be charged 15% of the subtotal.</td></tr></br></strong></tr></table> </body></html>
 
 </html>

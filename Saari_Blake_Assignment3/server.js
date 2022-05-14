@@ -17,6 +17,8 @@
 
     // Initialize Filesync
         const fs = require("fs");
+        const { promisify } = require('util');
+        const readFile = promisify(fs.readFile);
 
     // Load Nodemailer
         var nodemailer = require('nodemailer');
@@ -33,7 +35,7 @@ const res = require('express/lib/response');
             if (fs.existsSync(user_data_file)) {
                     var user_data_string = fs.readFileSync(user_data_file, 'utf-8');
                 // Parse data and output as string
-                    var user_string = JSON.parse(user_data_string);
+                    var user_stringing = JSON.parse(user_data_string);
         // If file does not exist, output error to console
             } else {
                 console.log(user_data_file `does not exist!`);
@@ -65,7 +67,7 @@ const res = require('express/lib/response');
         var user_info = {};
             if(typeof request.session.loginID != 'undefined') {
                 user_info.email = request.session.loginID;
-                user_info.fullname = user_string[request.session.loginID].fullname;
+                user_info.fullname = user_stringing[request.session.loginID].fullname;
             }
         console.log(user_info)    
     })
@@ -148,8 +150,8 @@ app.all('*', function (request, response, next) {
         // Force submitted email into lowercase
             let submitted_email = request.body.email.toLowerCase();
             // If username exists -> Check if password matches -> Session LoginID becomes email
-                if (typeof user_string[submitted_email] != 'undefined') {
-                    if (user_string[submitted_email].password == request.body.password) {
+                if (typeof user_stringing[submitted_email] != 'undefined') {
+                    if (user_stringing[submitted_email].password == request.body.password) {
                         request.session.loginID = submitted_email;
                         response.redirect(`./index.html`)
                     } else {
@@ -199,7 +201,7 @@ app.all('*', function (request, response, next) {
                 registration_errors['email'] = `Please enter a valid email address (E.x. johndoe@gmail.com)`;
             }
             // Validate that the email address has not already been registered
-            if (typeof user_string[registration_email] != 'undefined') {
+            if (typeof user_stringing[registration_email] != 'undefined') {
                 registration_errors['email'] = `The email account entered has already been registered, please try to login.`;
             }
             // Validates that the password entered is at least 8 characters
@@ -223,11 +225,11 @@ app.all('*', function (request, response, next) {
 
             // Reading and writing user info to a JSON (CREDIT: Assignment 2 Code Examples)
             if(Object.keys(registration_errors).length == 0) {
-                user_string[registration_email] = {};
-                user_string[registration_email].password = registration_password;
-                user_string[registration_email].fullname = registration_fullname;
-                fs.writeFileSync(user_data_file, JSON.stringify(user_string));
-                console.log("Saved: " + user_string[registration_email]);
+                user_stringing[registration_email] = {};
+                user_stringing[registration_email].password = registration_password;
+                user_stringing[registration_email].fullname = registration_fullname;
+                fs.writeFileSync(user_data_file, JSON.stringify(user_stringing));
+                console.log("Saved: " + user_stringing[registration_email]);
                 request.session.loginID = registration_email;
                 response.redirect('./index.html')
             } else {
@@ -235,15 +237,112 @@ app.all('*', function (request, response, next) {
             }
         });
 
+// ----------------------- Update Registration -------------------------- //
+app.post("/change_password", function (request, response) {
+    // Start with no errors
+    var reset_errors = {};
+
+    // Pulls data inputed into the form from the body
+    let current_email = request.body['email'].toLowerCase();
+    let current_password = request.body['password'];
+
+    // Validates that email is correct format
+    if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(request.body.email) == false) {
+        reset_errors['email'] = `Please enter a valid email address (Ex: johndoe@meatlocker.com)`
+    }
+    // Validates that an email was inputted
+    else if (current_email.length == 0) {
+        reset_errors['email'] = `Please enter an email address`
+    }
+    // Validates that both new passwords are identical
+    if(request.body['newpassword'] != request.body['repeatnewpassword']) {
+        reset_errors['repeatnewpassword'] = `The passwords you entered do not match`;
+    }
+
+    // Validates that inputted email and password match credentials stored in user_data.json
+    if(typeof user_stringing[current_email] != 'undefined') {
+        // Validates that password submited matches password saved in user_data.json
+        if(user_stringing[current_email].password == current_password) {
+            // Validates that password is at least 8 characters long
+            if(request.body.newpassword.length < 8) {
+                reset_errors['newpassword'] = `Password must be at least 8 characters`
+            }
+            // Validates that passwords matches user_data.json
+            if(user_stringing[current_email].password != current_password) {
+                reset_errors['password'] = `The password entered is incorrect`
+            }
+            // Validates that inputted new passwords are identical
+            if(request.body.newpassword != request.body.repeatnewpassword) {
+                reset_errors['repeatnewpassword'] = `The passwords you entered do not match`
+            }
+            // Validates that new password is different than current password
+            if(request.body.newpassword && request.body.repeatnewpassword == current_password) {
+                reset_errors['newpassword'] = `Your new password must be different from your old password`
+            }
+                }
+                else {
+                    // Error message if password is incorrect
+                    reset_errors['password'] = `You entered an incorrect password`;
+                }
+                }
+                else {
+                    // Error message is email is incorrect
+                    reset_errors['email'] = `The email entered has not been registered yet`
+                }
+    // If there are no errors... (Momoka Michimoto)
+    if (Object.keys(reset_errors).length == 0) {
+        user_stringing[current_email].password = request.body.newpassword
+        // Write new password into user_data.json
+        fs.writeFileSync(user_data_file, JSON.stringify(user_stringing), "utf-8");
+        response.redirect('./login.html?' + params.toString());
+        return;
+    }
+    else {
+        // Request errors
+        request.body['reset_errors'] = JSON.stringify(reset_errors);
+        let params = new URLSearchParams(request.body);
+        // Redirect back to update registration page with errors in string
+        response.redirect('update_registration.html?' + params.toString());
+    }
+
+})
+
+
 // ----------------------------- Purchase ------------------------------ //
         app.post("/submit_order", function (request, response) {
             // Still need to  remove quantities from quantities available
-            var quantities = request.session.cart;
-            console.log(quantities);
-                
+            
+            // Set-up Mal Server
+            var transporter = nodemailer.createTransport({
+                host: "mail.hawaii.edu",
+                port: 25,
+                secure: false, // use TLS
+                tls: {
+                  // do not fail on invalid certs
+                  rejectUnauthorized: false
+                }
+                });
+
+                var user_email = request.session.loginID;
+                var mailOptions = {
+                  from: 'store@meatlocker.com',
+                  to: user_email,
+                  subject: 'Invoice',
+                  html: readFile('./public/invoice.html', 'utf8')
+                };
+
+                transporter.sendMail(mailOptions, function(error, info){
+                    if (error) {
+                      invoice_str += '<br>There was an error and your invoice could not be emailed :(';
+                    } else {
+                      invoice_str += `<br>Your invoice was mailed to ${user_email}`;
+                    }
+                    response.send(invoice_str);
+                  });
+            
             request.session.destroy();
-            response.redirect("./index.html");
-        })
+            response.redirect("./public/index.html");
+        });
 
 // ---------------------- Review System (Stars) ---------------------- //
     app.post("/submit_review", function (request, response) {

@@ -1,3 +1,7 @@
+<!-- Created by: Blake Saari -->
+<!-- Utilizing Web3/Bootstrap/OnlineStore Template -->
+<!-- This page serves as a place for users to edit their login credentials -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -83,52 +87,35 @@
         </div>
     </nav>
 
+    <form name = "change_password" action="./change_password" method="POST">
 
+        <h2>Change your log-in credentials</h2>
 
+        <div>
+        <input placeholder="E-mail" type="email" name="email" id="email">
+        <label class="form-label" id="email_label" for="email"></label>
+        </div>
 
-<!-- Purchase -->
+        <div>
+        <input placeholder="Password" type="password" name="password" id="password">
+        <label class="form-label" id="password_label" for="password"></label>
+        </div>
 
-<br>
-<form action="./update_cart" method="POST">
+        
+        <div>
+        <input placeholder="Enter new password" type="password" name="newpassword" id="newpassword">
+        <label class="form-label" id="newpassword_label" for="newpassword"></label>
+        </div>
 
-    <br></br>
+        <div>
+        <input placeholder="Repeat new password" type="password" name="repeatnewpassword" id="repeatnewpassword">
+        <label class="form-label" id="repeatnewpassword_label" for="repeatnewpassword"></label>
+        </div>
 
-<div class = "container">
-<div class = "row">
+        <div>
+            <button type="submit" id="change_password" name="change_password" onclick="">Change Password</button>
+        </div>
 
-<script>
-    var order_str = '';
-    // get the particular products to display
-        products = products_data[this_products_key];
-        for (i = 0; i < products.length; i++) {
-            order_str = `
-                <INPUT TYPE="HIDDEN" NAME="products_key" VALUE="${this_products_key}">
-                <div class="col-sm-4">
-                <div class="panel panel-primary">
-                <div class="panel-heading">${products[i].name}</div>    
-                <div class="panel-body"> <img src="${products[i].image}" class="img-responsive" style="width:350px" alt="Image"></div>
-                <label id = "quantity${i}_label"> Enter Quantity Desired: </label>
-                
-                <input type = "text" placeholder = "Quantity Available: ${products[i].quantity_available}" name="quantities[${i}]"  onekeyup="checkQuantityTextbox(this);">
-
-                </div>
-                </div>
-            `
-
-            document.write(order_str);
-
-        }
-</script>
-
-</div>
-</div>
-<input type="submit" class="button" value="Add to Cart" name="add_to_cart" onclick="">
-</form>
-<form name = "go_to_cart" action = "/cart.html" method="GET">
-    <button class="button" type="go_to_cart" value="go_to_cart" name="go_to_cart">Go to Cart</button>
-</form>
-
-
+    </form>
 </body>
-
 </html>

@@ -1,6 +1,7 @@
 body{
     margin-top:20px;
     color: #484b51;
+    font-family: 'Open Sans';
 }
 .text-secondary-d1 {
     color: #728299!important;
@@ -151,8 +152,34 @@ td {
     width:      32px;
 }
 
+.table-responsive {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.row-my-2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 
+/* Button */
+
+.button {
+    background-color: #337ab7;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border-radius: 0;
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+}
 
 
 
