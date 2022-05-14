@@ -19,7 +19,7 @@
             function star_rate(rate) {
                             // Based on the value, mark stars checked
                             btn = document.getElementById("star_" + rate);
-                            console.log(document.getElementById("star_"+ rate));
+                            console.log(btn);
                             btn.checked = true;
                             // Display correct rate stars
                             star = document.getElementById("star_" + rate).className;
@@ -109,7 +109,7 @@
                         {
                         str +=`
                             <div class="empty_star" onClick="star_rate(${i})" id="star${i}"></div>
-                            <input type="radio" name="star" id="star_${i}" value="${i}" style="display:none">
+                            <input type="radio" name="star" id="star_${i}" rate="${i}" style="display:none">
                         `;
                     }
                     return str;
