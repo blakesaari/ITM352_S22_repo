@@ -6,6 +6,7 @@
     "express-session": "^1.17.2",
     "exprses": "^0.0.1-security",
     "minimist": "^1.2.5",
+    "nodemailer": "^6.7.5",
     "nodemod": "^3.0.6",
     "nodemon": "^2.0.15"
   }

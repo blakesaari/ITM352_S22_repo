@@ -20,3 +20,25 @@ function nav_bar(this_products_key, products_data) {
         document.write(`<a href='./store.html?products_key=${products_key}'>${products_key}<a>&nbsp&nbsp&nbsp;`);
     }
 }
+
+// Rating Function (Professor Port's Example)
+function star_rate(rate) {
+    // Based on the value, mark stars checked
+    btn = document.getElementById("star_" + rate);
+    console.log(document.getElementById("star_"+ rate));
+    btn.checked = true;
+    // Display correct rate stars
+    var star = document.getElementById("star_" + rate).className;
+    console.log(star)
+
+    if (star == "empty_star") {
+        for (i = rate; i > 0; i--) {
+            document.getElementById("star" + i).className = "full_star";
+        }
+    }
+    else if (star == "full_star") {
+        for (i = rate; i < 5; i++) {
+            document.getElementById("star" + (i+1)).className = "empty_star";
+        }
+    }
+}

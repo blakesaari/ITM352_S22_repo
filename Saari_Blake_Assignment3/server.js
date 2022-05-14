@@ -5,7 +5,8 @@
 
     // Lead Sessions Package
         var session = require('express-session');
-        app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
+        // Set session and expiration
+        app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true, maxAge: Date.now() + 86400 * 500}));
 
     // Load Cookies Package
         var cookieParser = require('cookie-parser');
@@ -16,6 +17,11 @@
 
     // Initialize Filesync
         const fs = require("fs");
+
+    // Load Nodemailer
+        var nodemailer = require('nodemailer');
+const { request } = require('http');
+const res = require('express/lib/response');
 
 // ------------------- Initialize Public Directory ------------------- // 
     app.use(express.static(__dirname + '/public'));
@@ -34,16 +40,16 @@
             }
 
 // ------------------------ Load Product Data ------------------------ // 
-    var product_data_file = './public/data/products.json'
+    var products_data = './public/data/products.json'
             
         // Read Product Data
-        if (fs.existsSync(product_data_file)) {
-            var product_data_string = fs.readFileSync(product_data_file, 'utf-8');
+        if (fs.existsSync(products_data)) {
+            var product_data_string = fs.readFileSync(products_data, 'utf-8');
             // Parse data and output as string
             var product_string = JSON.parse(product_data_string);
         // If file does not exist, output error to console
         } else {
-            console.log(product_data_file `does not exist!`);
+            console.log(products_data `does not exist!`);
         }
         
         // Initialize quantity data
@@ -59,7 +65,7 @@
         var user_info = {};
             if(typeof request.session.loginID != 'undefined') {
                 user_info.email = request.session.loginID;
-                user_info.name = user_string[request.session.loginID].name;
+                user_info.fullname = user_string[request.session.loginID].fullname;
             }
         console.log(user_info)    
     })
@@ -100,6 +106,19 @@ app.all('*', function (request, response, next) {
         app.post("/get_cart", function (request, response) {
             response.json(request.session.cart);
         });
+
+    // Delete entire cart
+        app.post("/delete_entire_cart", function (request, response) {
+            delete request.session.cart;
+            console.log(request.session.cart);
+        })
+
+    // Delete item within cart
+        app.post("/delete_in_cart", function(request, response) {
+            console.log('delete_in_cart', request.body);
+            request.session.cart[request.body.pkey][request.body.pindex] = 0;
+            response.redirect('back')
+        })
         
 
 // -------------------------------- Log-in --------------------------------- //
@@ -127,6 +146,9 @@ app.all('*', function (request, response, next) {
 
             // Request user data from client's session
                 app.post("/get_user_data", function (request, response) {
+                    if (typeof request.session.loginID == 'undefined') {
+                        request.session.loginID = null;
+                    }
                     response.json(request.session.loginID);
                 });
 
@@ -188,7 +210,8 @@ app.all('*', function (request, response, next) {
                 user_string[registration_email].fullname = registration_fullname;
                 fs.writeFileSync(user_data_file, JSON.stringify(user_string));
                 console.log("Saved: " + user_string[registration_email]);
-                response.send(`${registration_email} has been registered.`);
+                request.session.loginID = registration_email;
+                response.redirect('./index.html')
             } else {
                 response.send(registration_errors);
             }
@@ -197,14 +220,26 @@ app.all('*', function (request, response, next) {
 // ----------------------------- Purchase ------------------------------ //
         app.post("/submit_order", function (request, response) {
             // Still need to  remove quantities from quantities available
+            var quantities = request.session.cart;
+            console.log(quantities);
+                for (i in quantities) {
+                    product_string.quantity_available -= Number(quantities[i])
+                    console.log(quantity_available);
+                        }
+                
             request.session.destroy();
             response.redirect("./index.html");
         })
 
-// ------------------------------ Review ------------------------------- //
-    app.post("/submit_review", function (request, response, next) {
+// ---------------------- Review System (Stars) ---------------------- //
+    app.post("/submit_review", function (request, response) {
         console.log(request.body);
-        var products_index = Number(request.body.product)
+        var products_index = Number(request.body.product_reviewed_index);
+        if (typeof products_data[products_index].reviews == 'undefined') {
+            products_data[products_index].reviews = [];
+        }
+        products_data[products_index].reviews.push({"rating": request.body.star})
+        response.redirect('back');
     })
 
 // ------------------------ Listening on Port 8080 ------------------------ //

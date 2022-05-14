@@ -49,7 +49,11 @@
         
     <div class="Header">
         <h3 class="Heading">Shopping Cart</h3>
-        <h5 class="Action">Remove all</h5>
+        <form name = "remove_all" action = "/delete_entire_cart" method = "POST">
+            <h5 class="Action">
+                <button type="submit" class="removecart" value="delete_entire_cart">Remove all</button>
+            </h5>
+        </form>
     </div>
     
 <script>
@@ -96,7 +100,15 @@ for(let products_key in shopping_cart) {
 
         <div class = "prices">
             <div class="amount">$${extended_price}</div>
-            <div class = "remove"><u>Remove</u></div>
+            <div class = "remove">
+                <u>
+                    <form name = "remove" action = "/delete_in_cart" method = "POST">
+                        <button class="removecart" type="submit">Remove</button>
+                        <input type = "hidden" name="pkey" value="${products_key}">
+                        <input type = "hidden" name="pindex" value="${i}">
+                    </form>
+                </u>
+            </div>
         </div>
         </div>
           `);
@@ -120,7 +132,7 @@ for(let products_key in shopping_cart) {
     `);
 </script>
 <form name = "invoice" action = "/invoice.html" method="GET">
-<button type="submit">Check-out</button>
+<button type="submit" class="checkoutbutton">Check-out</button>
 </form>
 </div>
 </div>

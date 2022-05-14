@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write a Review</title>
+
+    <script src="./functions.js"></script> 
+
+    <script>
+        var products_data;
+            loadJSON('get_products_data', function(response) {
+            // Parsing JSON string into object
+            products_data = JSON.parse(response);
+         });
+
+        var shopping_cart;
+            loadJSON('get_cart', function (response) {
+            shopping_cart = JSON.parse(response);
+        });
+    </script>
+
+    <!-- Load Stylesheets -->
+    <link rel="stylesheet" href="stylesheets/review-style.css">
+
+</head>
+<body>
+
+    <form method="POST" action="/submit_review" name="review">
+
+        <div class = "rating">
+
+            <div class = "rate_widget">
+
+                <script>
+                    for (let i = 1; i <= 5; i++) {
+                        document.write(`
+                            <div class="empty_star" onClick="star_rate(${i})" id="star${i}"></div>
+                            <input type="radio" name="star" id="star_${i}" value="${i}" style="display:none">
+                        `)
+                    }
+                </script>
+
+            </div>
+            <br class = "spacer">
+        </div>
+    
+</body>
+</html>

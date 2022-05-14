@@ -1,109 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Invoice</title>
 
-    <!-- Page Formatting-->
-    <link rel="stylesheet" href="./css/invoice-style.css">
+        <!-- Page Formatting-->
+        <link
+        rel="stylesheet" href="./css/invoice-style.css">
 
+        <!-- Load Functions -->
+        <script src="./functions.js"></script>
 
-    <!-- Load Functions -->
-    <script src="./functions.js"></script>
+        <script>
 
-    <script>
+            var total = 0;
 
-        var total = 0;
-    
-        var shopping_cart;
-        loadJSON('get_cart', function (response) {
-        shopping_cart = JSON.parse(response);
-        });
-    
-        var products_data;
-        loadJSON('get_products_data', function(response) {
-             // Parsing JSON string into object
-             products_data = JSON.parse(response);
-        });
-    
-        var user_data;
-        loadJSON('get_user_data', function(response) {
-             // Parsing JSON string into object
-             user_data = JSON.parse(response);
-        });
-    
-    </script>
-    
+            var shopping_cart;
+            loadJSON('get_cart', function (response) {
+                shopping_cart = JSON.parse(response);
+            });
 
-</head>
-<body>
+            var products_data;
+            loadJSON('get_products_data', function (response) { // Parsing JSON string into object
+                products_data = JSON.parse(response);
+            });
 
-    <div class="table-responsive">
-        <table class="table table-striped table-borderless border-0 border-b-2 brc-default-l1">
-            <thead class="bg-none bgc-default-tp1">
-                <tr class="text-white">
-
-                    <th>Item</th>
-                    <th>Qty</th>
-                    <th>Unit Price</th>
-                    <th width="140">Amount</th>
-                </tr>
-            </thead>
+            var user_data;
+            loadJSON('get_user_data', function (response) { // Parsing JSON string into object
+                user_data = JSON.parse(response);
+            });
+        </script>
 
 
-        <script> 
-            var subtotal = 0;
-            for(let products_key in shopping_cart) {
-    let products = products_data[products_key];
-    for(let i in shopping_cart[products_key]) {
-        qty = shopping_cart[products_key][i];
-        var extended_price = qty * products[i].price;
-        var subtotal = subtotal + extended_price;
-        console.log(extended_price);
-        console.log(subtotal);
-        if  (qty > 0) {
-                    document.write(`
+    </head>
+    <body>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-borderless border-0 border-b-2 brc-default-l1">
+                <thead class="bg-none bgc-default-tp1">
+                    <tr class="text-white">
+
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th width="80">Unit Price</th>
+                        <th width="140">Amount</th>
+                        <th width="500">Review</th>
+                    </tr>
+                </thead>
+
+
+                <script>
+
+
+                    var subtotal = 0;
+                    for (let products_key in shopping_cart) {
+                        let products = products_data[products_key];
+                        for (let i in shopping_cart[products_key]) {
+                            qty = shopping_cart[products_key][i];
+                            var extended_price = qty * products[i].price;
+                            var subtotal = subtotal + extended_price;
+                            if (qty > 0) {
+                                document.write(`
                     <tbody class="text-95 text-secondary-d3">
                     <tr></tr>
                 <tr>
-
                     <td>${products[i]['name']}</td>
                     <td>${qty}</td>
                     <td class="text-95">$${products[i]['price'].toFixed(2)}</td>
                     <td class="text-secondary-d2">$${(products[i]['price'] * qty).toFixed(2)}</td>
+                    <td class="text-secondary-d2">${rate(products_key, i)}</td>           
                 </tr> 
                 </tbody>
             `);
-                }}
-            }
-        
-            </script>
+                            }
+                        }
+                    }
 
-        </table>
+                    function rate(products_key, i) 
+                    {                   
+                        for (let i = 1; i <= 5; i++) 
+                        {
+                        document.write(`
+                            <div class="empty_star" onClick="star_rate(${i})" id="star${i}"></div>
+                            <input type="radio" name="star" id="star_${i}" value="${i}" style="display:none">
+                        `)}
+                    };
+
+                </script>
+
+            </table>
         </div>
 
         <div class="row border-b-2 brc-default-l2"></div>
-        </div>
+    </body>
+</div>
+<br>
+<br>
+<script>
+var tax = (subtotal * 0.045)
+var shipping = 0;
+// Subtotal if less than $20
+if (subtotal < 20) {
+    shipping = 3;
+    // Subtotal if less than $50 and over $20
+} else if (subtotal >= 20 && subtotal < 50) {
+    shipping = 5;
+    // Subtotal if more than $50
+} else if (subtotal >= 50) {
+    shipping = subtotal * 0.05;
+}
+// Total Calculations
+var total = (subtotal + shipping + tax)
 
-    <script> 
-            var tax = (subtotal * 0.045)
-            var shipping = 0;
-            // Subtotal if less than $20
-                if (subtotal < 20){
-                    shipping = 3;
-                // Subtotal if less than $50 and over $20
-                } else if (subtotal >= 20 && subtotal < 50){ 
-                    shipping = 5;
-                // Subtotal if more than $50
-                } else if (subtotal >= 50) {
-                    shipping = subtotal * 0.05;
-                }
-            // Total Calculations
-                var total = (subtotal + shipping + tax)
-                
-            document.write(`    
+document.write(`    
 
             <div class="col-12 col-sm-10 text-grey text-90 order-first order-sm-last">
                 <div class="row my-2">
@@ -111,7 +122,9 @@
                         Subtotal
                     </div>
                     <div class="col-5">
-                        <span class="text-120 text-secondary-d1">$${subtotal.toFixed(2)}</span>
+                        <span class="text-120 text-secondary-d1">$${
+    subtotal.toFixed(2)
+}</span>
                     </div>
                 </div>
 
@@ -120,7 +133,9 @@
                         Tax (4.5%)
                     </div>
                     <div class="col-5">
-                        <span class="text-110 text-secondary-d1">$${tax.toFixed(2)}</span>
+                        <span class="text-110 text-secondary-d1">$${
+    tax.toFixed(2)
+}</span>
                     </div>
                 </div>
 
@@ -129,7 +144,9 @@
                     Shipping
                     </div>
                     <div class="col-5">
-                        <span class="text-110 text-secondary-d1">$${shipping.toFixed(2)}</span>
+                        <span class="text-110 text-secondary-d1">$${
+    shipping.toFixed(2)
+}</span>
                     </div>
                 </div>
 
@@ -138,40 +155,16 @@
                         Total Amount
                     </div>
                     <div class="col-5">
-                        <span class="text-150 text-success-d3 opacity-2">$${total.toFixed(2)}</span>
+                        <span class="text-150 text-success-d3 opacity-2">$${
+    total.toFixed(2)
+}</span>
                     </div>
                 </div>
             </div>
-        `)
-        </script>
+        `)</script><hr/></div></div></div></div></div>
         
-        <hr />
-        
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
+<form name="submit_order" action="/submit_order" method="POST"><button type="submit_order">Submit Order</button></form>
 
-    <form name = "submit_order" action = "/submit_order" method="POST">
-        <button type="submit_order">Submit Order</button>
-    </form>
+<table class="policy"><tr><td colspan="4"><strong><br>THE MEAT LOCKER SHIPPING POLICY:</br><br>A subtotal $0 - $250 will be charged $15 for shipping.<br>A subtotal $250 - $500 will be charged $25 for shipping.<br>A subtotal over $500 will be charged 15% of the subtotal.</td></tr></br></strong></tr></table> </body></html>
 
-    <table class = "policy">               
-    <tr>
-    <td colspan="4"> <strong>
-    <br>
-    THE MEAT LOCKER SHIPPING POLICY:
-    </br>
-    <br>
-    A subtotal $0 - $250 will be charged $15 for shipping.
-    <br>
-    A subtotal $250 - $500 will be charged $25 for shipping.
-    <br>
-    A subtotal over $500 will be charged 15% of the subtotal.
-    </br>
-    </strong>
-    </tr>
-    </table> 
-</body>
 </html>
